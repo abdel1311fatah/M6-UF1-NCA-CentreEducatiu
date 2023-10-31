@@ -21,80 +21,9 @@ public class Menu {
         outer:
         do {
             System.out.println("Enter an option: ");
+            option = scan.nextInt();
+            if (option != 0) {
 
-            if (scan.hasNextInt()) {
-                option = scan.nextInt();
-
-                if (option > 0 && option <= 13) {
-                    entrar = true;
-                } else if (option == 0) {
-                    System.out.println("Has sortit correctament");
-                    entrar = false;
-                    break outer;
-                } else {
-                    System.out.println("Ha de ser un numero entre 0 i 4 ");
-                }
-            } else {
-                System.out.println("Introdueix numeros ");
-                scan.next();
-            }
-        } while (!entrar);
-
-        return option;
-    }
-    public HashMap optionsMenu(int option) {
-
-        Scanner scan = new Scanner(System.in);
-        boolean entrar = false;
-        HashMap <Integer, Integer> hashMap = new HashMap<>(); // hashmap per a guardar el tipus d usuari i la ordre, per a poder retornar les 2
-
-        if(option == 1){ // ha loguejat un alumne
-            System.out.println("Que vols fer? ");
-            System.out.println("0: Exit ");
-            System.out.println("1: Mirar les teves notes "); // fer lo mateix que als horaris
-            System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos
-            System.out.println("3: Mirar professors "); // filtrar profes per string del curs i recorrer amb un foreach el arraylist
-            System.out.println("4: Mirar tasques ");
-            int order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-            hashMap.put(option,order); // la option es el rol i la order es la ordre
-        } else if (option == 2) { // ha loguejat un profe
-            System.out.println("Que vols fer? ");
-            System.out.println("0: Exit ");
-            System.out.println("1: Mirar notes"); // fer lo mateix que als horaris
-            System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos
-            System.out.println("3: Mirar alumnes "); // filtrar alumnes per string del curs i recorrer amb un foreach el arraylist
-            System.out.println("4: Mirar tasques ");
-            int order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-            hashMap.put(option,order);
-        } else if (option == 3) { // ha loguejat una cuinera
-            System.out.println("Que vols fer? ");
-            System.out.println("0: Exit ");
-            System.out.println("1: Mirar plats de la setmana "); // foreach d un arraylist de files dels plats
-            System.out.println("2: Mirar turnos");
-            int order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-            hashMap.put(option,order);
-        } else if (option == 4) { // ha loguejat una secretaria
-            System.out.println("Que vols fer? "); // crud alumnes y profesors per separat
-            System.out.println("0: Exit ");
-            System.out.println("1: Mirar alumnes ");
-            System.out.println("2: Mirar turnos");
-            System.out.println("3: Mirar profesors");
-            System.out.println("4: Insertar profesors");
-            System.out.println("5: Actualitzar profesors");
-            System.out.println("6: Borrar profesors");
-            System.out.println("7: Insertar alumnes");
-            System.out.println("8: Actualitzar alumnes");
-            System.out.println("9: Borrar alumnes");
-            int order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-            hashMap.put(option,order);
-        }
-
-        outer:
-        do {
-            System.out.println("Enter an option: ");
-
-            if (scan.hasNextInt()) {
-                option = scan.nextInt();
 
                 if (option > 0 && option <= 4) {
                     entrar = true;
@@ -111,8 +40,79 @@ public class Menu {
             }
         } while (!entrar);
 
-        return hashMap;
+        return option;
     }
+
+    public int optionsMenu(int option) {
+
+        Scanner scan = new Scanner(System.in);
+        boolean entrar = false;
+        int order = 0;
+
+        if (option != 0) {
+            do {
+                if (option == 1) { // ha loguejat un alumne
+                    System.out.println("Que vols fer? ");
+                    System.out.println("0: Exit ");
+                    System.out.println("1: Mirar les teves notes "); // fer lo mateix que als horaris
+                    System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos
+                    System.out.println("3: Mirar professors "); // filtrar profes per string del curs i recorrer amb un foreach el arraylist
+                    System.out.println("4: Mirar tasques ");
+                    order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
+                    if(order != 0){
+                        return order;
+                    }
+                } else if (option == 2) { // ha loguejat un profe
+                    System.out.println("Que vols fer? ");
+                    System.out.println("0: Exit ");
+                    System.out.println("1: Mirar notes"); // fer lo mateix que als horaris
+                    System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos
+                    System.out.println("3: Mirar alumnes "); // filtrar alumnes per string del curs i recorrer amb un foreach el arraylist
+                    System.out.println("4: Mirar tasques ");
+                    order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
+                    if(order != 0){
+                        return order;
+                    }
+                } else if (option == 3) { // ha loguejat una cuinera
+                    System.out.println("Que vols fer? ");
+                    System.out.println("0: Exit ");
+                    System.out.println("1: Mirar plats de la setmana "); // foreach d un arraylist de files dels plats
+                    System.out.println("2: Mirar turnos");
+                    order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
+                    if(order != 0){
+                        return order;
+                    }
+                } else if (option == 4) { // ha loguejat una secretaria
+                    System.out.println("Que vols fer? "); // crud alumnes y profesors per separat
+                    System.out.println("0: Exit ");
+                    System.out.println("1: Mirar alumnes ");
+                    System.out.println("2: Mirar turnos");
+                    System.out.println("3: Mirar profesors");
+                    System.out.println("4: Insertar profesors");
+                    System.out.println("5: Actualitzar profesors");
+                    System.out.println("6: Borrar profesors");
+                    System.out.println("7: Insertar alumnes");
+                    System.out.println("8: Actualitzar alumnes");
+                    System.out.println("9: Borrar alumnes");
+                    System.out.println("10: Borrar notes");
+                    System.out.println("11: Insertar notes");
+                    System.out.println("12: Actualitzar notes");
+                    System.out.println("13: Borrar notes");
+
+                    order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
+                    if(order != 0){
+                        return order;
+                    }
+                } else if (option == 0) {
+                    System.out.println("Has sortit del programa");
+                } else {
+                    System.out.println("Introdueix numeros");
+                }
+            } while (order != 0);
+        }
+        return order;
+    }
+
     public String email() {
 
         Scanner scan = new Scanner(System.in);
@@ -144,6 +144,7 @@ public class Menu {
 
         return email;
     }
+
     public String nif() {
 
         Scanner scan = new Scanner(System.in);
@@ -210,6 +211,7 @@ public class Menu {
 
         return nif;
     }
+
     public String name() {
 
         Scanner scan = new Scanner(System.in);
@@ -244,6 +246,7 @@ public class Menu {
 
         return name;
     }
+
     public String surname() {
 
         Scanner scan = new Scanner(System.in);
@@ -277,10 +280,11 @@ public class Menu {
 
         return surname;
     }
-    public String curs(){
+
+    public String curs() {
 
         Scanner scan = new Scanner(System.in);
-        String [] cursos = {"1","2","3","4","IT","DAM","ARI","ADE","VDS","ES","IEA"};
+        String[] cursos = {"1", "2", "3", "4", "IT", "DAM", "ARI", "ADE", "VDS", "ES", "IEA"};
         String curs = "";
         boolean valid = false;
 
@@ -290,7 +294,7 @@ public class Menu {
         do {
             for (int i = 0; i < cursos.length; i++) {
 
-                if(cursos[i].equalsIgnoreCase(curs) && !valid){
+                if (cursos[i].equalsIgnoreCase(curs) && !valid) {
                     valid = true;
                     return curs;
                 }
@@ -299,13 +303,14 @@ public class Menu {
 
         } while (!valid);
 
-        if(!valid){
+        if (!valid) {
             System.out.println("No es un curs valid, introdueixne un altre: ");
             curs = scan.nextLine();
         }
 
         return curs;
     }
+
     public String NIFtoErase() {
 
         Scanner scan = new Scanner(System.in);
@@ -314,6 +319,7 @@ public class Menu {
 
         return NIF;
     }
+
     public String NIFtoUpdate() {
 
         Scanner scan = new Scanner(System.in);
@@ -322,21 +328,25 @@ public class Menu {
 
         return NIF;
     }
-    public String NIFtoFind(){
+
+    public String NIFtoFind() {
         System.out.println("NIF of the customer you want to find: ");
         String NIFtoFind = nif();
         return NIFtoFind;
     }
+
     public String emailToFind() {
         System.out.println("Enter the customer's email you want to find: ");
         String email = email();
         return email;
     }
+
     public String nameToFind() {
         System.out.println("Enter the customer's name you want to find: ");
         String name = name();
         return name;
     }
+
     public String surnameToFind() {
         System.out.println("Enter the customer's surname you want to find: ");
         String surname = surname();

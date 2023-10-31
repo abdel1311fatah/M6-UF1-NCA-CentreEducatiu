@@ -1,6 +1,8 @@
 package org.example.Empleats;
 
-public class Cuinera extends Empleat {
+import java.io.Serializable;
+
+public class Cuinera extends Empleat implements Serializable {
     // Puedes agregar atributos específicos de Cuinera si es necesario
 
     public Cuinera(String dni, String nom, String cognom, int edat) {

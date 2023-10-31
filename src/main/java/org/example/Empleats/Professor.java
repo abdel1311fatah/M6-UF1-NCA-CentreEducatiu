@@ -1,8 +1,9 @@
 package org.example.Empleats;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class Professor extends Empleat {
+public class Professor extends Empleat implements Serializable {
     private File assignatures;
     private String curs;
     public Professor(String dni, String nom, String cognom, int edat, File assignatures, String curs) {

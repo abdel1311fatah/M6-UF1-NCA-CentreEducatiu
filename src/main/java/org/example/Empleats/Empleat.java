@@ -1,5 +1,7 @@
 package org.example.Empleats;
 
+import java.io.Serializable;
+
 public class Empleat {
     private String dni;
     private String nom;

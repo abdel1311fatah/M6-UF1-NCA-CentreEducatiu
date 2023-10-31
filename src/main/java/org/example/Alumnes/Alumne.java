@@ -1,8 +1,9 @@
 package org.example.Alumnes;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class Alumne {
+public class Alumne implements Serializable {
     private String dni;
     private String nom;
     private String cognom;
