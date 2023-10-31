@@ -15,7 +15,7 @@ public class Main {
         //menu d' opcions del usuari i creem el hashmap que te el rol de l usuari i la opcio que vol fer
         int option = menu.optionsMenu(rol);
 
-        if(rol ==  1 && option == 1){ // ha loguejat un alumne
+        if(rol ==  1 && option == 1){ // ha loguejat un alumne // Raul
 
         } else if (rol ==  1 && option == 2) {
 
@@ -23,7 +23,7 @@ public class Main {
 
         } else if (rol ==  1 && option == 4) {
 
-        } else if (rol ==  2 && option == 1) { // ha loguejat un profe
+        } else if (rol ==  2 && option == 1) { // ha loguejat un profe //Abdel
 
         } else if (rol ==  2 && option == 2) {
 
@@ -31,11 +31,11 @@ public class Main {
 
         } else if (rol ==  2 && option == 4) {
 
-        } else if (rol ==  3 && option == 1) { // ha logejat una cuinera
+        } else if (rol ==  3 && option == 1) { // ha logejat una cuinera // Raul
 
         } else if (rol ==  3 && option == 2) {
 
-        } else if (rol ==  4 && option == 1) { // ha logejat una secretaria
+        } else if (rol ==  4 && option == 1) { // ha logejat una secretaria //Abdel
 
         } else if (rol ==  4 && option == 2) {
 
@@ -49,7 +49,7 @@ public class Main {
 
         } else if (rol ==  4 && option == 7) {
 
-        } else if (rol ==  4 && option == 8) {
+        } else if (rol ==  4 && option == 8) { // Raul
 
         } else if (rol ==  4 && option == 9) {
 

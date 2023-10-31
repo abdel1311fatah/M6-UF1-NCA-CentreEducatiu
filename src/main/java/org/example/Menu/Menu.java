@@ -59,7 +59,7 @@ public class Menu {
                     System.out.println("3: Mirar professors "); // filtrar profes per string del curs i recorrer amb un foreach el arraylist
                     System.out.println("4: Mirar tasques ");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if(order != 0){
+                    if(order != 0 || (order > 0 && order <=4)){
                         return order;
                     }
                 } else if (option == 2) { // ha loguejat un profe
@@ -70,7 +70,7 @@ public class Menu {
                     System.out.println("3: Mirar alumnes "); // filtrar alumnes per string del curs i recorrer amb un foreach el arraylist
                     System.out.println("4: Mirar tasques ");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if(order != 0){
+                    if(order != 0 || (order > 0 && order <=4)){
                         return order;
                     }
                 } else if (option == 3) { // ha loguejat una cuinera
@@ -79,7 +79,7 @@ public class Menu {
                     System.out.println("1: Mirar plats de la setmana "); // foreach d un arraylist de files dels plats
                     System.out.println("2: Mirar turnos");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if(order != 0){
+                    if(order != 0 || (order > 0 && order <=2)){
                         return order;
                     }
                 } else if (option == 4) { // ha loguejat una secretaria
@@ -100,7 +100,7 @@ public class Menu {
                     System.out.println("13: Borrar notes");
 
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if(order != 0){
+                    if(order != 0 || (order > 0 && order <=13)){
                         return order;
                     }
                 } else if (option == 0) {

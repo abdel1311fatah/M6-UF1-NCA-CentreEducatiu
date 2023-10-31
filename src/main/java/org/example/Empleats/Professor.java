@@ -6,8 +6,8 @@ import java.io.Serializable;
 public class Professor extends Empleat implements Serializable {
     private File assignatures;
     private String curs;
-    public Professor(String dni, String nom, String cognom, int edat, File assignatures, String curs) {
-        super(dni, nom, cognom, edat);
+    public Professor(String dni, String nom, String cognom, String email, int edat, File assignatures, String curs) {
+        super(dni, nom, cognom, email, edat);
         this.assignatures = assignatures;
         this.curs = curs;
     }
