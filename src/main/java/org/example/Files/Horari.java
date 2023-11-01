@@ -1,6 +1,8 @@
 package org.example.Files;
 
-public class Horari {
+import java.io.Serializable;
+
+public class Horari implements Serializable {
 
     private int hora;
     private String assignatura;

@@ -9,6 +9,9 @@ public class Empleat {
     private String email;
     private int edat;
 
+    public Empleat() {
+    }
+
     public Empleat(String dni, String nom, String cognom, String email, int edat) {
         this.dni = dni;
         this.nom = nom;

@@ -2,7 +2,9 @@ package org.example.Files;
 
 import org.example.Alumnes.Alumne;
 
-public class Notes {
+import java.io.Serializable;
+
+public class Notes implements Serializable {
 
     private Alumne alumne;
     private String assignatura;

@@ -59,7 +59,7 @@ public class Menu {
                     System.out.println("3: Mirar professors "); // filtrar profes per string del curs i recorrer amb un foreach el arraylist
                     System.out.println("4: Mirar tasques ");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if(order != 0 || (order > 0 && order <=4)){
+                    if (order != 0 || (order > 0 && order <= 4)) {
                         return order;
                     }
                 } else if (option == 2) { // ha loguejat un profe
@@ -70,7 +70,7 @@ public class Menu {
                     System.out.println("3: Mirar alumnes "); // filtrar alumnes per string del curs i recorrer amb un foreach el arraylist
                     System.out.println("4: Mirar tasques ");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if(order != 0 || (order > 0 && order <=4)){
+                    if (order != 0 || (order > 0 && order <= 4)) {
                         return order;
                     }
                 } else if (option == 3) { // ha loguejat una cuinera
@@ -79,10 +79,11 @@ public class Menu {
                     System.out.println("1: Mirar plats de la setmana "); // foreach d un arraylist de files dels plats
                     System.out.println("2: Mirar turnos");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if(order != 0 || (order > 0 && order <=2)){
+                    if (order != 0 || (order > 0 && order <= 2)) {
                         return order;
                     }
                 } else if (option == 4) { // ha loguejat una secretaria
+
                     System.out.println("Que vols fer? "); // crud alumnes y profesors per separat
                     System.out.println("0: Exit ");
                     System.out.println("1: Mirar alumnes ");
@@ -98,11 +99,11 @@ public class Menu {
                     System.out.println("11: Insertar notes");
                     System.out.println("12: Actualitzar notes");
                     System.out.println("13: Borrar notes");
-
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if(order != 0 || (order > 0 && order <=13)){
+                    if (order != 0 || (order > 0 && order <= 13)) {
                         return order;
                     }
+
                 } else if (option == 0) {
                     System.out.println("Has sortit del programa");
                 } else {
@@ -285,30 +286,43 @@ public class Menu {
 
         Scanner scan = new Scanner(System.in);
         String[] cursos = {"1", "2", "3", "4", "IT", "DAM", "ARI", "ADE", "VDS", "ES", "IEA"};
-        String curs = "";
         boolean valid = false;
 
-        System.out.println("Curs: ");
-        curs = scan.nextLine();
+        System.out.println("Curs: 1, 2, 3, 4, IT, DAM, ARI, ADE, VDS, ES, IEA");
+        String curs = scan.nextLine();
 
         do {
             for (int i = 0; i < cursos.length; i++) {
-
-                if (cursos[i].equalsIgnoreCase(curs) && !valid) {
-                    valid = true;
+                if (cursos[i].equalsIgnoreCase(curs)) {
                     return curs;
                 }
-
             }
 
+            if(!valid){
+                System.out.println("No has introduit un curs valid, introdueixne un valid: ");
+                curs = scan.nextLine();
+            }
         } while (!valid);
 
-        if (!valid) {
-            System.out.println("No es un curs valid, introdueixne un altre: ");
-            curs = scan.nextLine();
+        return curs;
+    }
+
+    public int age() {
+        Scanner scan = new Scanner(System.in);
+        boolean valid = false;
+        System.out.println("Age: ");
+        int age = scan.nextInt();
+
+        while (!valid) {
+            if (age != 0 && age > 0 && age <= 130) {
+                valid = true;
+            }else{
+                System.out.println("No es una edat valida, introdueixne un altre: ");
+                age = scan.nextInt();
+            }
         }
 
-        return curs;
+        return age;
     }
 
     public String NIFtoErase() {
