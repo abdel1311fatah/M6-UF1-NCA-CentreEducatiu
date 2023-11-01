@@ -77,7 +77,6 @@ public class Menu {
                     System.out.println("Que vols fer? ");
                     System.out.println("0: Exit ");
                     System.out.println("1: Mirar plats de la setmana "); // foreach d un arraylist de files dels plats
-                    System.out.println("2: Mirar turnos");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
                     if (order != 0 || (order > 0 && order <= 2)) {
                         return order;
@@ -87,20 +86,19 @@ public class Menu {
                     System.out.println("Que vols fer? "); // crud alumnes y profesors per separat
                     System.out.println("0: Exit ");
                     System.out.println("1: Mirar alumnes ");
-                    System.out.println("2: Mirar turnos");
-                    System.out.println("3: Mirar profesors");
-                    System.out.println("4: Insertar profesors");
-                    System.out.println("5: Actualitzar profesors");
-                    System.out.println("6: Borrar profesors");
-                    System.out.println("7: Insertar alumnes");
-                    System.out.println("8: Actualitzar alumnes");
-                    System.out.println("9: Borrar alumnes");
-                    System.out.println("10: Borrar notes");
-                    System.out.println("11: Insertar notes");
-                    System.out.println("12: Actualitzar notes");
-                    System.out.println("13: Borrar notes");
+                    System.out.println("2: Mirar profesors");
+                    System.out.println("3: Insertar profesors");
+                    System.out.println("4: Actualitzar profesors");
+                    System.out.println("5: Borrar profesors");
+                    System.out.println("6: Insertar alumnes");
+                    System.out.println("7: Actualitzar alumnes");
+                    System.out.println("8: Borrar alumnes");
+                    System.out.println("9: Borrar notes");
+                    System.out.println("10: Insertar notes");
+                    System.out.println("11: Actualitzar notes");
+                    System.out.println("12: Veure notes");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if (order != 0 || (order > 0 && order <= 13)) {
+                    if (order != 0 || (order > 0 && order <= 12)) {
                         return order;
                     }
 
@@ -310,8 +308,7 @@ public class Menu {
     public int age() {
         Scanner scan = new Scanner(System.in);
         boolean valid = false;
-        System.out.println("Age: ");
-        int age = scan.nextInt();
+        int age = obtindreInt("Age: ");
 
         while (!valid) {
             if (age != 0 && age > 0 && age <= 130) {
@@ -369,4 +366,34 @@ public class Menu {
 
     public Menu() {
     }
+
+    public int obtindreInt(String text) {
+
+        boolean TipusCorrecte;
+        Scanner sc = new Scanner(System.in);
+        int num_usuari = 0;
+
+        do {
+            System.out.print(text);
+            TipusCorrecte = sc.hasNextInt();
+            if (!TipusCorrecte) {
+                sc.nextLine();
+                System.out.println("Error: Valor no válido");
+            } else {
+                num_usuari = sc.nextInt();
+            }
+        } while (!TipusCorrecte);
+
+        return num_usuari;
+    }
+
+    public String obtindreString(String text) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print(text);
+        String text_usuari = sc.nextLine();
+
+        return text_usuari;
+    }
+
 }

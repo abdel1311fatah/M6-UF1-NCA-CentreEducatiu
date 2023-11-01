@@ -7,15 +7,14 @@ import java.io.Serializable;
 public class Notes implements Serializable {
 
     private Alumne alumne;
-    private String assignatura;
-    private int nota;
+    private String curs;
 
     public Notes() {
     }
-    public Notes(Alumne alumne, String assignatura, int nota) {
+
+    public Notes(Alumne alumne, String curs) {
         this.alumne = alumne;
-        this.assignatura = assignatura;
-        this.nota = nota;
+        this.curs = curs;
     }
 
     public Alumne getAlumne() {
@@ -26,19 +25,11 @@ public class Notes implements Serializable {
         this.alumne = alumne;
     }
 
-    public String getAssignatura() {
-        return assignatura;
+    public String getCurs() {
+        return curs;
     }
 
-    public void setAssignatura(String assignatura) {
-        this.assignatura = assignatura;
-    }
-
-    public int getNota() {
-        return nota;
-    }
-
-    public void setNota(int nota) {
-        this.nota = nota;
+    public void setCurs(String curs) {
+        this.curs = curs;
     }
 }
