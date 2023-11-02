@@ -129,6 +129,7 @@ public class Main {
             }
 
         } else if (rol == 4 && option == 3) { // crear profes
+
             ArrayList<Professor> professors = new ArrayList<>();
             File directoriProfessors = new File("src/Files/professors.dat");
 
@@ -171,6 +172,7 @@ public class Main {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         } else if (rol == 4 && option == 4) {
 
             System.out.println("Dni del professor que vols actualitzar: ");
@@ -236,6 +238,56 @@ public class Main {
             }
 
         } else if (rol == 4 && option == 5) {
+
+            ArrayList<Professor> professors = new ArrayList<>();
+            File directoriProfessors = new File("src/Files/professors.dat");
+
+            try {
+                if (directoriProfessors.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriProfessors);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    professors = (ArrayList<Professor>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                System.out.println("No hi han dades a professors.dat");
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Dni del professor que vols eliminar: ");
+            String dni = menu.nif();
+            int index = 0;
+            boolean trobat = false;
+
+            for (int i = 0; i < professors.size(); i++) {
+                if (dni.equalsIgnoreCase(professors.get(i).getDni()) && !trobat) {
+                    index = i;
+                    trobat = true;
+                }
+            }
+
+            if(trobat) {
+                professors.remove(professors.get(index));
+            }else{
+                System.out.println("No s ha trobat al professor ");
+            }
+
+            try {
+                FileOutputStream fos = new FileOutputStream(directoriProfessors);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+                oos.writeObject(professors);
+
+                oos.close();
+                fos.close();
+                System.out.println("Has borrat al professor amb nif: " + dni);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         } else if (rol == 4 && option == 6) { // crear alumnes
 
