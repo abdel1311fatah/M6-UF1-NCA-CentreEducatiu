@@ -54,10 +54,9 @@ public class Menu {
                 if (option == 1) { // ha loguejat un alumne
                     System.out.println("Que vols fer? ");
                     System.out.println("0: Exit ");
-                    System.out.println("1: Mirar les teves notes "); // fer lo mateix que als horaris
-                    System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos
-                    System.out.println("3: Mirar professors "); // filtrar profes per string del curs i recorrer amb un foreach el arraylist
-                    System.out.println("4: Mirar tasques ");
+                    System.out.println("1: Mirar les teves notes "); // fer lo mateix que als horaris // Raul // 2-1
+                    System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos // Raul
+                    System.out.println("3: Mirar professors "); // filtrar profes per string del curs i recorrer amb un foreach el arraylist // Raul 4-2
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
                     if (order != 0 || (order > 0 && order <= 4)) {
                         return order;
@@ -91,11 +90,11 @@ public class Menu {
                     System.out.println("5: Borrar profesors");
                     System.out.println("6: Insertar alumnes");
                     System.out.println("7: Actualitzar alumnes");
-                    System.out.println("8: Borrar alumnes");
-                    System.out.println("9: Borrar notes");
+                    System.out.println("8: Borrar alumnes"); // Raul 4-5
+                    System.out.println("9: Borrar notes"); // Raul
                     System.out.println("10: Insertar notes");
-                    System.out.println("11: Actualitzar notes");
-                    System.out.println("12: Veure notes");
+                    System.out.println("11: Actualitzar notes"); // Raul
+                    System.out.println("12: Veure notes"); // Raul // 2-1
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
                     if (order != 0 || (order > 0 && order <= 12)) {
                         return order;
