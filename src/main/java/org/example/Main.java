@@ -104,21 +104,16 @@ public class Main {
             }
 
             ArrayList<Professor> professors = new ArrayList<>();
-            int indexProfessorTrobat = 0;
             boolean trobat = false, acabat = false;
 
             try {
 
                 FileInputStream fis = new FileInputStream(directoriProfessors);
                 ObjectInputStream ois = new ObjectInputStream(fis);
-                Professor professor;
 
                 while (!acabat){
                     try {
-                        professor = (Professor) ois.readObject();
-                        // fer el cast a empleat, pillar els atributs d empleat, ficarli a professor
-                        professors.add(professor);
-                        System.out.println(professor.toString());
+                        professors.add((Professor) ois.readObject());
                     }catch (EOFException e){
                         acabat = true;
                     }
@@ -131,25 +126,18 @@ public class Main {
                 e.printStackTrace();
             }
 
-            System.out.println("DNI del professor que vols trobar: ");
+            System.out.println("DNI del profesor que vols trobar: ");
             String nif = menu.nif();
 
-            if(professors.size() >= 0) {
-                for (int i = 0; i < professors.size(); i++) {
-                    if(nif.equalsIgnoreCase(professors.get(i).getDni()) && !trobat){
-                        trobat = true;
-                        indexProfessorTrobat = i;
-                    }
+            for (Professor professor : professors) {
+                if (professor.getDni() != null && professor.getDni().equalsIgnoreCase(nif)) {
+                    trobat = true;
+                    System.out.println("Professor trobat: " + professor.toString());
                 }
-            }else{
-                System.out.println("No hi han professors inscrits");
             }
 
-            if (trobat){
-                Professor professorTrobat = professors.get(indexProfessorTrobat);
-                System.out.println("El professor de DNI " + nif + " te aquestes dades: " + professorTrobat.toString());
-            }else{
-                System.out.println("No s ha trobat cap professor");
+            if (!trobat) {
+                System.out.println("No s'ha trobat cap professor amb aquest DNI.");
             }
 
         } else if (rol == 4 && option == 3) { // crear profes
@@ -169,7 +157,7 @@ public class Main {
 
             Professor professor = new Professor(menu.nif(), menu.name(), menu.surname(), menu.email(), menu.age(),assignatures, menu.curs());
 
-            FileOutputStream fos = new FileOutputStream(directoriProfessors);
+            FileOutputStream fos = new FileOutputStream(directoriProfessors, true);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             oos.writeObject(professor);
@@ -227,7 +215,7 @@ public class Main {
                     professor.setCurs(menu.curs());
                     System.out.println("El professor ara te aquestes dades: " + professor);
 
-                    FileOutputStream fos = new FileOutputStream("src/Files/professors.dat");
+                    FileOutputStream fos = new FileOutputStream("src/Files/professors.dat", true);
                     ObjectOutputStream oos = new ObjectOutputStream(fos);
                     oos.writeObject(professor);
 
@@ -250,7 +238,7 @@ public class Main {
 
             Alumne alumne = new Alumne(menu.nif(), menu.name(), menu.surname(), menu.curs(), menu.age());
 
-            FileOutputStream fos = new FileOutputStream(directoriAlumnes);
+            FileOutputStream fos = new FileOutputStream(directoriAlumnes, true);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             oos.writeObject(alumne);
@@ -296,7 +284,7 @@ public class Main {
                     alumne.setEdat(menu.age());
                     System.out.println("L' alumne ara te aquestes dades: " + alumne);
 
-                    FileOutputStream fos = new FileOutputStream("src/Files/alumnes.dat");
+                    FileOutputStream fos = new FileOutputStream("src/Files/alumnes.dat", true);
                     ObjectOutputStream oos = new ObjectOutputStream(fos);
                     oos.writeObject(alumne);
 
@@ -360,7 +348,7 @@ public class Main {
             }
             if(trobat) {
                 Notes notesAlumne = new Notes(alumnes.get(indexAlumneTrobat), alumnes.get(indexAlumneTrobat).getCurs());
-                FileOutputStream fos = new FileOutputStream("src/Files/notes.dat");
+                FileOutputStream fos = new FileOutputStream("src/Files/notes.dat", true);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
 
                 oos.writeObject(notesAlumne);
