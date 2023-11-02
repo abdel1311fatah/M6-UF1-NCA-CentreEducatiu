@@ -95,23 +95,30 @@ public class Main {
                 System.out.println("No s ha trobat cap alumne");
             }
 
-        } else if (rol == 4 && option == 2) { // crear primer el archiu de profes.dat per a provar
+        } else if (rol == 4 && option == 2) { // fer que no es sobreescribeixin els profes
+
+            File directoriProfessors = new File("src/Files/professors.dat");
+
+            if (!directoriProfessors.exists()) {
+                directoriProfessors.createNewFile();
+            }
 
             ArrayList<Professor> professors = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/professors.dat");
             int indexProfessorTrobat = 0;
             boolean trobat = false, acabat = false;
 
             try {
 
-                FileInputStream fis = new FileInputStream(directoriAlumnes);
+                FileInputStream fis = new FileInputStream(directoriProfessors);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Professor professor;
 
                 while (!acabat){
                     try {
                         professor = (Professor) ois.readObject();
+                        // fer el cast a empleat, pillar els atributs d empleat, ficarli a professor
                         professors.add(professor);
+                        System.out.println(professor.toString());
                     }catch (EOFException e){
                         acabat = true;
                     }
@@ -119,6 +126,7 @@ public class Main {
 
                 ois.close();
                 fis.close();
+
             } catch (EOFException e) {
                 e.printStackTrace();
             }
@@ -154,6 +162,7 @@ public class Main {
             int numeroAssignatures = menu.obtindreInt("Quantes assignatures te aquest professor? ");
             String[] assignatures = new String[numeroAssignatures];
             System.out.println("Introdueix les assignatures que fa el professor: ");
+
             for (int i = 0; i < numeroAssignatures; i++) {
                 assignatures[i] = menu.obtindreString("Assignatura: ");
             }
@@ -164,7 +173,7 @@ public class Main {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             oos.writeObject(professor);
-            System.out.println("Has creat un professor amb aquestes dades: " + professor.toString());
+            System.out.println("Has creat un professor amb aquestes dades: " + professor.toString()); // al escriure a professors.dat perd els atributs heredats
 
         } else if (rol == 4 && option == 4) {
 

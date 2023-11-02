@@ -19,7 +19,6 @@ public class Alumne implements Serializable {
         this.curs = curs;
         this.edat = edat;
     }
-
     public String getDni() {
         return dni;
     }

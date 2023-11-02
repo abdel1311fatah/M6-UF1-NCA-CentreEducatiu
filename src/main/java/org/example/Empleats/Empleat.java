@@ -2,7 +2,7 @@ package org.example.Empleats;
 
 import java.io.Serializable;
 
-public class Empleat {
+public class Empleat implements Serializable{
     private String dni;
     private String nom;
     private String cognom;
@@ -58,5 +58,16 @@ public class Empleat {
 
     public void setEdat(int edat) {
         this.edat = edat;
+    }
+
+    @Override
+    public String toString() {
+        return "Empleat{" +
+                "dni='" + dni + '\'' +
+                ", nom='" + nom + '\'' +
+                ", cognom='" + cognom + '\'' +
+                ", email='" + email + '\'' +
+                ", edat=" + edat +
+                '}';
     }
 }

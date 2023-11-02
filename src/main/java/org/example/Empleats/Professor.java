@@ -1,6 +1,7 @@
 package org.example.Empleats;
 
-import java.io.File;
+import org.example.Empleats.Empleat;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -38,6 +39,6 @@ public class Professor extends Empleat implements Serializable {
         return "Professor{" +
                 "assignatures=" + Arrays.toString(assignatures) +
                 ", curs='" + curs + '\'' +
-                '}';
+                "} " + super.toString();
     }
 }
