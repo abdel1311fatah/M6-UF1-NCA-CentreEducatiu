@@ -57,16 +57,8 @@ public class Main {
 
                 FileInputStream fis = new FileInputStream(directoriAlumnes); // part per a pillar els alumnes
                 ObjectInputStream ois = new ObjectInputStream(fis);
-                Alumne alumne = new Alumne();
 
-                while (!acabat){
-                    try {
-                        alumne = (Alumne) ois.readObject();
-                        alumnes.add(alumne);
-                    }catch (EOFException e){
-                        acabat = true;
-                    }
-                }
+                alumnes = (ArrayList<Alumne>) ois.readObject();
 
                 ois.close();
                 fis.close();
@@ -77,51 +69,40 @@ public class Main {
             System.out.println("DNI del alumne que vols trobar: ");
             String nif = menu.nif();
 
-            if(alumnes.size() >= 0) {
+            if (alumnes.size() >= 0) {
                 for (int i = 0; i < alumnes.size(); i++) {
-                    if(nif.equalsIgnoreCase(alumnes.get(i).getDni()) && !trobat){
+                    if (nif.equalsIgnoreCase(alumnes.get(i).getDni()) && !trobat) {
                         trobat = true;
                         indexAlumneTrobat = i;
                     }
                 }
-            }else{
+            } else {
                 System.out.println("No hi han alumnes inscrits");
             }
 
-            if (trobat){
+            if (trobat) {
                 Alumne alumneTrobat = alumnes.get(indexAlumneTrobat);
                 System.out.println("L alumne de DNI " + nif + " te aquestes dades: " + alumneTrobat.toString());
-            }else{
+            } else {
                 System.out.println("No s ha trobat cap alumne");
             }
 
         } else if (rol == 4 && option == 2) { // fer que no es sobreescribeixin els profes
 
-            File directoriProfessors = new File("src/Files/professors.dat");
-
-            if (!directoriProfessors.exists()) {
-                directoriProfessors.createNewFile();
-            }
-
             ArrayList<Professor> professors = new ArrayList<>();
+            File directoriProfessors = new File("src/Files/professors.dat");
+            int indexProfessorTrobat = 0;
             boolean trobat = false, acabat = false;
 
             try {
-
+                // Llena el ArrayList con profesores del archivo "professors.dat"
                 FileInputStream fis = new FileInputStream(directoriProfessors);
                 ObjectInputStream ois = new ObjectInputStream(fis);
 
-                while (!acabat){
-                    try {
-                        professors.add((Professor) ois.readObject());
-                    }catch (EOFException e){
-                        acabat = true;
-                    }
-                }
+                professors = (ArrayList<Professor>) ois.readObject();
 
                 ois.close();
                 fis.close();
-
             } catch (EOFException e) {
                 e.printStackTrace();
             }
@@ -129,22 +110,42 @@ public class Main {
             System.out.println("DNI del profesor que vols trobar: ");
             String nif = menu.nif();
 
-            for (Professor professor : professors) {
-                if (professor.getDni() != null && professor.getDni().equalsIgnoreCase(nif)) {
-                    trobat = true;
-                    System.out.println("Professor trobat: " + professor.toString());
+            if (professors.size() >= 0) {
+                for (int i = 0; i < professors.size(); i++) {
+                    if (nif.equalsIgnoreCase(professors.get(i).getDni()) && !trobat) {
+                        trobat = true;
+                        indexProfessorTrobat = i;
+                    }
                 }
+            } else {
+                System.out.println("No hi han professors inscrits");
             }
 
-            if (!trobat) {
-                System.out.println("No s'ha trobat cap professor amb aquest DNI.");
+            if (trobat) {
+                Professor professorTrobat = professors.get(indexProfessorTrobat);
+                System.out.println("El professor de DNI " + nif + " te aquestes dades: " + professorTrobat.toString());
+            } else {
+                System.out.println("No s'ha trobat cap professor");
             }
 
         } else if (rol == 4 && option == 3) { // crear profes
-
+            ArrayList<Professor> professors = new ArrayList<>();
             File directoriProfessors = new File("src/Files/professors.dat");
-            if (!directoriProfessors.exists()) {
-                directoriProfessors.createNewFile();
+
+            try {
+                if (directoriProfessors.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriProfessors);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    professors = (ArrayList<Professor>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                System.out.println("No hi han dades a professors.dat");
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
 
             int numeroAssignatures = menu.obtindreInt("Quantes assignatures te aquest professor? ");
@@ -155,14 +156,21 @@ public class Main {
                 assignatures[i] = menu.obtindreString("Assignatura: ");
             }
 
-            Professor professor = new Professor(menu.nif(), menu.name(), menu.surname(), menu.email(), menu.age(),assignatures, menu.curs());
+            Professor professor = new Professor(menu.nif(), menu.name(), menu.surname(), menu.email(), menu.age(), assignatures, menu.curs());
+            professors.add(professor);
 
-            FileOutputStream fos = new FileOutputStream(directoriProfessors, true);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            try {
+                FileOutputStream fos = new FileOutputStream(directoriProfessors);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            oos.writeObject(professor);
-            System.out.println("Has creat un professor amb aquestes dades: " + professor.toString()); // al escriure a professors.dat perd els atributs heredats
+                oos.writeObject(professors);
 
+                oos.close();
+                fos.close();
+                System.out.println("Has creat un professor amb aquestes dades: " + professor.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (rol == 4 && option == 4) {
 
             System.out.println("Dni del professor que vols actualitzar: ");
@@ -177,11 +185,11 @@ public class Main {
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Professor professor = new Professor();
 
-                while (!acabat){
+                while (!acabat) {
                     try {
                         professor = (Professor) ois.readObject();
                         professors.add(professor);
-                    }catch (EOFException e){
+                    } catch (EOFException e) {
                         acabat = true;
                     }
                 }
@@ -193,10 +201,10 @@ public class Main {
             }
 
             for (Professor professor : professors) {
-                if(professor.getDni().equalsIgnoreCase(null)){
+                if (professor.getDni().equalsIgnoreCase(null)) {
                     System.out.println("No hi ha professors");
                 }
-                if (professor.getDni().equalsIgnoreCase(nif) && !trobat){
+                if (professor.getDni().equalsIgnoreCase(nif) && !trobat) {
                     trobat = true;
                     System.out.println("Pots actualitzar les dades del professor amb dni: " + professor.getDni());
                     professor.setDni(menu.nif());
@@ -223,7 +231,7 @@ public class Main {
                     fos.close();
                 }
             }
-            if (!trobat){
+            if (!trobat) {
                 System.out.println("No s ha trobat cap professor");
             }
 
@@ -231,18 +239,42 @@ public class Main {
 
         } else if (rol == 4 && option == 6) { // crear alumnes
 
+            ArrayList<Alumne> alumnes = new ArrayList<>();
             File directoriAlumnes = new File("src/Files/alumnes.dat");
-            if (!directoriAlumnes.exists()) {
-                directoriAlumnes.createNewFile();
+
+            try {
+                if (directoriAlumnes.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriAlumnes);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    // Lee el ArrayList de alumnos existentes del archivo
+                    alumnes = (ArrayList<Alumne>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                // No se encontraron datos en el archivo, no es un error.
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
 
+            // Aquí puedes crear un nuevo alumno y agregarlo a la lista de "alumnes".
             Alumne alumne = new Alumne(menu.nif(), menu.name(), menu.surname(), menu.curs(), menu.age());
+            alumnes.add(alumne);
 
-            FileOutputStream fos = new FileOutputStream(directoriAlumnes, true);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            try {
+                FileOutputStream fos = new FileOutputStream(directoriAlumnes);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            oos.writeObject(alumne);
-            System.out.println("Has creat un alumne amb aquestes dades: " + alumne.toString());
+                oos.writeObject(alumnes);
+
+                oos.close();
+                fos.close();
+                System.out.println("Has creat un alumne amb aquestes dades: " + alumne.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         } else if (rol == 4 && option == 7) {
 
@@ -258,11 +290,11 @@ public class Main {
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Alumne alumne = new Alumne();
 
-                while (!acabat){
+                while (!acabat) {
                     try {
                         alumne = (Alumne) ois.readObject();
                         alumnes.add(alumne);
-                    }catch (EOFException e){
+                    } catch (EOFException e) {
                         acabat = true;
                     }
                 }
@@ -274,7 +306,7 @@ public class Main {
             }
 
             for (Alumne alumne : alumnes) {
-                if (alumne.getDni().equalsIgnoreCase(nif) && !trobat){
+                if (alumne.getDni().equalsIgnoreCase(nif) && !trobat) {
                     trobat = true;
                     System.out.println("Pots actualitzar les dades de l' alumne amb dni: " + alumne.getDni());
                     alumne.setDni(menu.nif());
@@ -286,13 +318,13 @@ public class Main {
 
                     FileOutputStream fos = new FileOutputStream("src/Files/alumnes.dat", true);
                     ObjectOutputStream oos = new ObjectOutputStream(fos);
-                    oos.writeObject(alumne);
+                    oos.writeObject(alumnes);
 
                     oos.close();
                     fos.close();
                 }
             }
-            if (!trobat){
+            if (!trobat) {
                 System.out.println("No s ha trobat cap alumne");
             }
 
@@ -323,11 +355,11 @@ public class Main {
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 Alumne alumne = new Alumne();
 
-                while (!acabat){
+                while (!acabat) {
                     try {
                         alumne = (Alumne) ois.readObject();
                         alumnes.add(alumne);
-                    }catch (EOFException e){
+                    } catch (EOFException e) {
                         acabat = true;
                     }
                 }
@@ -346,7 +378,7 @@ public class Main {
                     trobat = true;
                 }
             }
-            if(trobat) {
+            if (trobat) {
                 Notes notesAlumne = new Notes(alumnes.get(indexAlumneTrobat), alumnes.get(indexAlumneTrobat).getCurs());
                 FileOutputStream fos = new FileOutputStream("src/Files/notes.dat", true);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -355,7 +387,7 @@ public class Main {
 
                 oos.close();
                 fos.close();
-            }else{
+            } else {
                 System.out.println("No s' ha trobat l alumne");
             }
 
