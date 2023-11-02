@@ -20,7 +20,7 @@ public class Menu {
 
         outer:
         do {
-            System.out.println("Enter an option: ");
+            System.out.println("Entra una opció: ");
             option = scan.nextInt();
             if (option != 0) {
 

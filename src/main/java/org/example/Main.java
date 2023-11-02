@@ -26,11 +26,111 @@ public class Main {
         //menu d' opcions del usuari per rol
         int option = menu.optionsMenu(rol);
 
-        if (rol == 1 && option == 1) { // ha loguejat un alumne // Raul
+        if (rol == 1 && option == 1) {
+
+            ArrayList<Alumne> alumnes = new ArrayList<>();
+            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            int indexAlumneTrobat = 0;
+            boolean trobat = false, acabat = false;
+
+            try { // s omple l arraylist amb alumnes del fitxer d alumnes
+
+                FileInputStream fis = new FileInputStream(directoriAlumnes); // part per a pillar els alumnes
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                alumnes = (ArrayList<Alumne>) ois.readObject();
+
+                ois.close();
+                fis.close();
+            } catch (EOFException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Introdueix el teu dni ");
+            String nif = menu.nif();
+
+            if (alumnes.size() >= 0) {
+                for (int i = 0; i < alumnes.size(); i++) {
+                    if (nif.equalsIgnoreCase(alumnes.get(i).getDni()) && !trobat) {
+                        trobat = true;
+                        indexAlumneTrobat = i;
+                    }
+                }
+            } else {
+                System.out.println("No hi han alumnes inscrits");
+            }
+
+            if (trobat) {
+                Alumne alumneTrobat = alumnes.get(indexAlumneTrobat);
+                ArrayList<Notes> notes = new ArrayList<>();
+                File directoriNotes = new File("src/Files/notes.dat");
+
+                try {
+                    FileInputStream fis = new FileInputStream(directoriNotes);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    notes = (ArrayList<Notes>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                } catch (EOFException e) {
+                    e.printStackTrace();
+                }
+
+                trobat = false;
+                for (Notes nota : notes) {
+                    if (nota.getAlumne().getDni().equalsIgnoreCase(alumneTrobat.getDni()) && !trobat) {
+                        trobat = true;
+                        System.out.println("Les dades del alumne son:" +  nota.getAlumne().toString() + " i te un " + nota.getNota() + " de nota");
+                    }
+                }
+
+            } else {
+                System.out.println("No s ha trobat cap alumne");
+            }
 
         } else if (rol == 1 && option == 2) {
 
         } else if (rol == 1 && option == 3) {
+
+            ArrayList<Professor> professors = new ArrayList<>();
+            File directoriProfessors = new File("src/Files/professors.dat");
+            int indexProfessorTrobat = 0;
+            boolean trobat = false, acabat = false;
+
+            try {
+                // Llena el ArrayList con profesores del archivo "professors.dat"
+                FileInputStream fis = new FileInputStream(directoriProfessors);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                professors = (ArrayList<Professor>) ois.readObject();
+
+                ois.close();
+                fis.close();
+            } catch (EOFException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("DNI del profesor que vols trobar: ");
+            String nif = menu.nif();
+
+            if (professors.size() >= 0) {
+                for (int i = 0; i < professors.size(); i++) {
+                    if (nif.equalsIgnoreCase(professors.get(i).getDni()) && !trobat) {
+                        trobat = true;
+                        indexProfessorTrobat = i;
+                    }
+                }
+            } else {
+                System.out.println("No hi han professors inscrits");
+            }
+
+            if (trobat) {
+                Professor professorTrobat = professors.get(indexProfessorTrobat);
+                System.out.println("El professor de DNI " + nif + " te aquestes dades: " + professorTrobat.toString());
+            } else {
+                System.out.println("No s'ha trobat cap professor");
+            }
 
         } else if (rol == 1 && option == 4) {
 
@@ -89,7 +189,7 @@ public class Main {
                 for (Notes nota : notes) {
                     if (nota.getAlumne().getDni().equalsIgnoreCase(alumneTrobat.getDni()) && !trobat) {
                         trobat = true;
-                        System.out.println("Les dades de l alumne son:" +  nota.getAlumne().toString() + " i te un " + nota.getNota() + " de nota");
+                        System.out.println("Les dades del alumne son:" +  nota.getAlumne().toString() + " i te un " + nota.getNota() + " de nota");
                     }
                 }
 
@@ -477,8 +577,103 @@ public class Main {
 
         } else if (rol == 4 && option == 8) { // Raul
 
-        } else if (rol == 4 && option == 9) {
+            ArrayList<Alumne> alumnes = new ArrayList<>();
+            File directoriAlumnes = new File("src/Files/alumnes.dat");
 
+            try {
+                if (directoriAlumnes.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriAlumnes);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    alumnes = (ArrayList<Alumne>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                System.out.println("No hi han dades a alumnes.dat");
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Dni del alumne que vols eliminar: ");
+            String dni = menu.nif();
+            int index = 0;
+            boolean trobat = false;
+
+            for (int i = 0; i < alumnes.size(); i++) {
+                if (dni.equalsIgnoreCase(alumnes.get(i).getDni()) && !trobat) {
+                    index = i;
+                    trobat = true;
+                }
+            }
+
+            if (trobat) {
+                alumnes.remove(alumnes.get(index));
+            } else {
+                System.out.println("No s ha trobat al professor ");
+            }
+
+            try {
+                FileOutputStream fos = new FileOutputStream(directoriAlumnes);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+                oos.writeObject(alumnes);
+
+                oos.close();
+                fos.close();
+                System.out.println("Has borrat al alumne amb nif: " + dni);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if (rol == 4 && option == 9) {
+            // Pide el DNI del alumno cuyas notas deseas borrar
+            System.out.println("DNI del alumno del que quieres borrar las notas: ");
+            String dniAlumno = menu.nif();
+
+            ArrayList<Notes> notas = new ArrayList<>();
+            File archivoNotas = new File("src/Files/notes.dat");
+
+            try {
+                if (archivoNotas.exists()) {
+                    FileInputStream fis = new FileInputStream(archivoNotas);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    // Leer las notas existentes desde el archivo
+                    notas = (ArrayList<Notes>) ois.readObject();
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                System.out.println("No hay datos en notes.dat");
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            // Itera sobre las notas y elimina las correspondientes al DNI del alumno
+            ArrayList<Notes> notasABorrar = new ArrayList<>();
+            for (Notes nota : notas) {
+                if (nota.getAlumne().getDni().equalsIgnoreCase(dniAlumno)) {
+                    notasABorrar.add(nota);
+                }
+            }
+
+            // Elimina las notas identificadas para borrar
+            notas.removeAll(notasABorrar);
+
+            try {
+                // Vuelve a escribir la lista de notas actualizada en el archivo
+                FileOutputStream fos = new FileOutputStream(archivoNotas);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(notas);
+                oos.close();
+                fos.close();
+
+                System.out.println("Se han borrado las notas del alumno con DNI: " + dniAlumno);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (rol == 4 && option == 10) { // crear notes
 
             File directoriNotes = new File("src/Files/notes.dat");
@@ -546,9 +741,78 @@ public class Main {
             }
 
         } else if (rol == 4 && option == 11) {
+            // Pide el DNI del alumno cuyas notas deseas actualizar
+            System.out.println("DNI del alumno del que quieres actualizar las notas: ");
+            String dniAlumno = menu.nif();
 
+            ArrayList<Notes> notas = new ArrayList<>();
+            File archivoNotas = new File("src/Files/notes.dat");
+
+            try {
+                if (archivoNotas.exists()) {
+                    FileInputStream fis = new FileInputStream(archivoNotas);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    // Leer las notas existentes desde el archivo
+                    notas = (ArrayList<Notes>) ois.readObject();
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                System.out.println("No hay datos en notes.dat");
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            // Busca las notas del alumno y actualízalas
+            boolean notasActualizadas = false;
+            for (Notes nota : notas) {
+                if (nota.getAlumne().getDni().equalsIgnoreCase(dniAlumno)) {
+                    // Pide la nueva nota y actualiza la nota existente
+                    System.out.println("Introduce la nueva nota para el curso " + nota.getCurs() + ": ");
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("Nueva nota: ");
+                    int nuevaNota = scanner.nextInt();
+                    nota.setNota(nuevaNota);
+                    notasActualizadas = true;
+                }
+            }
+
+            if (notasActualizadas) {
+                try {
+                    // Vuelve a escribir la lista de notas actualizada en el archivo
+                    FileOutputStream fos = new FileOutputStream(archivoNotas);
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+                    oos.writeObject(notas);
+                    oos.close();
+                    fos.close();
+
+                    System.out.println("Se han actualizado las notas del alumno con DNI: " + dniAlumno);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("No se encontraron notas para actualizar del alumno con DNI: " + dniAlumno);
+            }
         } else if (rol == 4 && option == 12) {
+            ArrayList<Notes> allNotes = new ArrayList<>();
+            File directoriNotes = new File("src/Files/notes.dat");
 
+            try {
+                FileInputStream fis = new FileInputStream(directoriNotes);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                allNotes = (ArrayList<Notes>) ois.readObject();
+
+                ois.close();
+                fis.close();
+            } catch (EOFException e) {
+                e.printStackTrace();
+            }
+
+            for (Notes nota : allNotes) {
+                System.out.println("Les notes dels alumnes son:" + nota.getAlumne().toString() + " y tiene una nota de " + nota.getNota());
+            }
         } else {
             System.out.println("No s ha pogut entrar");
         }
