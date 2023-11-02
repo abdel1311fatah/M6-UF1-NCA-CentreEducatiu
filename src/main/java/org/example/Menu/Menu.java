@@ -68,9 +68,8 @@ public class Menu {
                     System.out.println("1: Mirar notes"); // fer lo mateix que als horaris
                     System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos
                     System.out.println("3: Mirar alumnes "); // filtrar alumnes per string del curs i recorrer amb un foreach el arraylist
-                    System.out.println("4: Mirar tasques ");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if (order != 0 || (order > 0 && order <= 4)) {
+                    if (order != 0 || (order > 0 && order <= 3)) {
                         return order;
                     }
                 } else if (option == 3) { // ha loguejat una cuinera

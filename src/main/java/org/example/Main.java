@@ -102,6 +102,45 @@ public class Main {
 
         } else if (rol == 2 && option == 3) {
 
+            ArrayList<Alumne> alumnes = new ArrayList<>();
+            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            int indexAlumneTrobat = 0;
+            boolean trobat = false, acabat = false;
+
+            try { // s omple l arraylist amb alumnes del fitxer d alumnes
+
+                FileInputStream fis = new FileInputStream(directoriAlumnes); // part per a pillar els alumnes
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                alumnes = (ArrayList<Alumne>) ois.readObject();
+
+                ois.close();
+                fis.close();
+            } catch (EOFException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("DNI del alumne que vols trobar: ");
+            String nif = menu.nif();
+
+            if (alumnes.size() >= 0) {
+                for (int i = 0; i < alumnes.size(); i++) {
+                    if (nif.equalsIgnoreCase(alumnes.get(i).getDni()) && !trobat) {
+                        trobat = true;
+                        indexAlumneTrobat = i;
+                    }
+                }
+            } else {
+                System.out.println("No hi han alumnes inscrits");
+            }
+
+            if (trobat) {
+                Alumne alumneTrobat = alumnes.get(indexAlumneTrobat);
+                System.out.println("L alumne de DNI " + nif + " te aquestes dades: " + alumneTrobat.toString());
+            } else {
+                System.out.println("No s ha trobat cap alumne");
+            }
+
         } else if (rol == 2 && option == 4) {
 
         } else if (rol == 3 && option == 1) { // ha logejat una cuinera // Raul
@@ -114,6 +153,10 @@ public class Main {
             File directoriAlumnes = new File("src/Files/alumnes.dat");
             int indexAlumneTrobat = 0;
             boolean trobat = false, acabat = false;
+
+            if(!directoriAlumnes.exists()){
+                directoriAlumnes.createNewFile();
+            }
 
             try { // s omple l arraylist amb alumnes del fitxer d alumnes
 
@@ -402,16 +445,8 @@ public class Main {
 
                 FileInputStream fis = new FileInputStream(directoriAlumnes); // part per a pillar els alumnes
                 ObjectInputStream ois = new ObjectInputStream(fis);
-                Alumne alumne = new Alumne();
 
-                while (!acabat) {
-                    try {
-                        alumne = (Alumne) ois.readObject();
-                        alumnes.add(alumne);
-                    } catch (EOFException e) {
-                        acabat = true;
-                    }
-                }
+                alumnes = (ArrayList<Alumne>) ois.readObject();
 
                 ois.close();
                 fis.close();
@@ -423,7 +458,6 @@ public class Main {
                 if (alumne.getDni().equalsIgnoreCase(nif) && !trobat) {
                     trobat = true;
                     System.out.println("Pots actualitzar les dades de l' alumne amb dni: " + alumne.getDni());
-                    alumne.setDni(menu.nif());
                     alumne.setNom(menu.name());
                     alumne.setCognom(menu.surname());
                     alumne.setCurs(menu.curs());
@@ -505,7 +539,7 @@ public class Main {
                         oos.close();
                         fos.close();
                     } else {
-                        System.out.println("No has introduit un numero valid per a la nota");
+                        nota = menu.obtindreInt("No has introduit un numero valid per a la nota, introdueixne un altra: ");
                     }
                 }
             } else {
