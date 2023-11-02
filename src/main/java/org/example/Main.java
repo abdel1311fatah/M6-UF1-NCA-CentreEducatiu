@@ -8,6 +8,7 @@ import org.example.Files.Turnos;
 import org.example.Menu.Menu;
 
 import java.io.*;
+import java.sql.Array;
 import java.sql.SQLOutput;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -35,6 +36,67 @@ public class Main {
         } else if (rol == 1 && option == 4) {
 
         } else if (rol == 2 && option == 1) { // ha loguejat un profe //Abdel
+
+            ArrayList<Alumne> alumnes = new ArrayList<>();
+            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            int indexAlumneTrobat = 0;
+            boolean trobat = false, acabat = false;
+
+            try { // s omple l arraylist amb alumnes del fitxer d alumnes
+
+                FileInputStream fis = new FileInputStream(directoriAlumnes); // part per a pillar els alumnes
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                alumnes = (ArrayList<Alumne>) ois.readObject();
+
+                ois.close();
+                fis.close();
+            } catch (EOFException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("DNI del alumne del que vols veure les notes: ");
+            String nif = menu.nif();
+
+            if (alumnes.size() >= 0) {
+                for (int i = 0; i < alumnes.size(); i++) {
+                    if (nif.equalsIgnoreCase(alumnes.get(i).getDni()) && !trobat) {
+                        trobat = true;
+                        indexAlumneTrobat = i;
+                    }
+                }
+            } else {
+                System.out.println("No hi han alumnes inscrits");
+            }
+
+            if (trobat) {
+                Alumne alumneTrobat = alumnes.get(indexAlumneTrobat);
+                ArrayList<Notes> notes = new ArrayList<>();
+                File directoriNotes = new File("src/Files/notes.dat");
+
+                try {
+                    FileInputStream fis = new FileInputStream(directoriNotes);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    notes = (ArrayList<Notes>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                } catch (EOFException e) {
+                    e.printStackTrace();
+                }
+
+                trobat = false;
+                for (Notes nota : notes) {
+                    if (nota.getAlumne().getDni().equalsIgnoreCase(alumneTrobat.getDni()) && !trobat) {
+                        trobat = true;
+                        System.out.println("Les dades de l alumne son:" +  nota.getAlumne().toString() + " i te un " + nota.getNota() + " de nota");
+                    }
+                }
+
+            } else {
+                System.out.println("No s ha trobat cap alumne");
+            }
 
         } else if (rol == 2 && option == 2) {
 
@@ -270,9 +332,9 @@ public class Main {
                 }
             }
 
-            if(trobat) {
+            if (trobat) {
                 professors.remove(professors.get(index));
-            }else{
+            } else {
                 System.out.println("No s ha trobat al professor ");
             }
 
@@ -401,24 +463,20 @@ public class Main {
             int indexAlumneTrobat = 0;
             boolean trobat = false, acabat = false;
 
-            try { // s omple l arraylist amb alumnes del fitxer d alumnes
 
-                FileInputStream fis = new FileInputStream(directoriAlumnes); // part per a pillar els alumnes
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                Alumne alumne = new Alumne();
+            try {
+                if (directoriAlumnes.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriAlumnes);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
 
-                while (!acabat) {
-                    try {
-                        alumne = (Alumne) ois.readObject();
-                        alumnes.add(alumne);
-                    } catch (EOFException e) {
-                        acabat = true;
-                    }
+                    alumnes = (ArrayList<Alumne>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
                 }
-
-                ois.close();
-                fis.close();
             } catch (EOFException e) {
+                System.out.println("No hi han dades a alumness.dat");
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -431,14 +489,25 @@ public class Main {
                 }
             }
             if (trobat) {
-                Notes notesAlumne = new Notes(alumnes.get(indexAlumneTrobat), alumnes.get(indexAlumneTrobat).getCurs());
-                FileOutputStream fos = new FileOutputStream("src/Files/notes.dat", true);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                int nota = menu.obtindreInt("Quina nota li vols ficar a l alumne? ");
+                boolean valid = false;
+                while (!valid) {
+                    if (nota >= 0 && nota <= 10) {
+                        valid = true;
+                        Notes notesAlumne = new Notes(alumnes.get(indexAlumneTrobat), alumnes.get(indexAlumneTrobat).getCurs(), nota);
+                        ArrayList<Notes> notesArrayList = new ArrayList<>();
+                        notesArrayList.add(notesAlumne);
+                        FileOutputStream fos = new FileOutputStream("src/Files/notes.dat", true);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-                oos.writeObject(notesAlumne);
+                        oos.writeObject(notesArrayList);
 
-                oos.close();
-                fos.close();
+                        oos.close();
+                        fos.close();
+                    } else {
+                        System.out.println("No has introduit un numero valid per a la nota");
+                    }
+                }
             } else {
                 System.out.println("No s' ha trobat l alumne");
             }
