@@ -7,7 +7,5 @@ Alumne
 Professor
 Secretaria
 Cuinera
-
 ```
-
 L objectiu d aquest programa es utilitzar fitxers per a moure la informacio i treballarla, intentant imitar com funcionarie un centre educatiu.
