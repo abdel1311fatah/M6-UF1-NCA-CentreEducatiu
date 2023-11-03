@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         Menu menu = new Menu();
+        CentreEducatiu LaSalle = new CentreEducatiu();
         //Menu d' eleccio de rol
         int rol = menu.rolMenu();
         //menu d' opcions del usuari per rol
@@ -23,174 +24,19 @@ public class Main {
 
         if (rol == 1 && option == 1) {
 
-            ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
-            int indexAlumneTrobat = 0;
-            boolean trobat = false, acabat = false;
-
-            try { // s omple l arraylist amb alumnes del fitxer d alumnes
-
-                FileInputStream fis = new FileInputStream(directoriAlumnes); // part per a pillar els alumnes
-                ObjectInputStream ois = new ObjectInputStream(fis);
-
-                alumnes = (ArrayList<Alumne>) ois.readObject();
-
-                ois.close();
-                fis.close();
-            } catch (EOFException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("Introdueix el teu dni ");
-            String nif = menu.nif();
-
-            if (alumnes.size() >= 0) {
-                for (int i = 0; i < alumnes.size(); i++) {
-                    if (nif.equalsIgnoreCase(alumnes.get(i).getDni()) && !trobat) {
-                        trobat = true;
-                        indexAlumneTrobat = i;
-                    }
-                }
-            } else {
-                System.out.println("No hi han alumnes inscrits");
-            }
-
-            if (trobat) {
-                Alumne alumneTrobat = alumnes.get(indexAlumneTrobat);
-                ArrayList<Notes> notes = new ArrayList<>();
-                File directoriNotes = new File(menu.ruta() + "notes.dat");
-
-                try {
-                    FileInputStream fis = new FileInputStream(directoriNotes);
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-
-                    notes = (ArrayList<Notes>) ois.readObject();
-
-                    ois.close();
-                    fis.close();
-                } catch (EOFException e) {
-                    e.printStackTrace();
-                }
-
-                trobat = false;
-                for (Notes nota : notes) {
-                    if (nota.getAlumne().getDni().equalsIgnoreCase(alumneTrobat.getDni()) && !trobat) {
-                        trobat = true;
-                        System.out.println("Les dades del alumne son:" +  nota.getAlumne().toString() + " i te un " + nota.getNota() + " de nota");
-                    }
-                }
-
-            } else {
-                System.out.println("No s'ha trobat cap alumne");
-            }
+            LaSalle.mirarNotes();
 
         } else if (rol == 1 && option == 2) {
 
         } else if (rol == 1 && option == 3) {
 
-            ArrayList<Professor> professors = new ArrayList<>();
-            File directoriProfessors = new File(menu.ruta() + "professors.dat");
-            int indexProfessorTrobat = 0;
-            boolean trobat = false, acabat = false;
-
-            try {
-                // Llena el ArrayList con profesores del archivo "professors.dat"
-                FileInputStream fis = new FileInputStream(directoriProfessors);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-
-                professors = (ArrayList<Professor>) ois.readObject();
-
-                ois.close();
-                fis.close();
-            } catch (EOFException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("DNI del profesor que vols trobar: ");
-            String nif = menu.nif();
-
-            if (professors.size() >= 0) {
-                for (int i = 0; i < professors.size(); i++) {
-                    if (nif.equalsIgnoreCase(professors.get(i).getDni()) && !trobat) {
-                        trobat = true;
-                        indexProfessorTrobat = i;
-                    }
-                }
-            } else {
-                System.out.println("No hi han professors inscrits");
-            }
-
-            if (trobat) {
-                Professor professorTrobat = professors.get(indexProfessorTrobat);
-                System.out.println("El professor de DNI " + nif + " te aquestes dades: " + professorTrobat.toString());
-            } else {
-                System.out.println("No s'ha trobat cap professor");
-            }
+           LaSalle.mirarProfessor();
 
         } else if (rol == 1 && option == 4) {
 
         } else if (rol == 2 && option == 1) { // ha loguejat un profe //Abdel
 
-            ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
-            int indexAlumneTrobat = 0;
-            boolean trobat = false, acabat = false;
-
-            try { // s'omple arraylist amb alumnes del fitxer d alumnes
-
-                FileInputStream fis = new FileInputStream(directoriAlumnes); // part per a pillar els alumnes
-                ObjectInputStream ois = new ObjectInputStream(fis);
-
-                alumnes = (ArrayList<Alumne>) ois.readObject();
-
-                ois.close();
-                fis.close();
-            } catch (EOFException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("DNI del alumne del que vols veure les notes: ");
-            String nif = menu.nif();
-
-            if (alumnes.size() >= 0) {
-                for (int i = 0; i < alumnes.size(); i++) {
-                    if (nif.equalsIgnoreCase(alumnes.get(i).getDni()) && !trobat) {
-                        trobat = true;
-                        indexAlumneTrobat = i;
-                    }
-                }
-            } else {
-                System.out.println("No hi han alumnes inscrits");
-            }
-
-            if (trobat) {
-                Alumne alumneTrobat = alumnes.get(indexAlumneTrobat);
-                ArrayList<Notes> notes = new ArrayList<>();
-                File directoriNotes = new File(menu.ruta() + "notes.dat");
-
-                try {
-                    FileInputStream fis = new FileInputStream(directoriNotes);
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-
-                    notes = (ArrayList<Notes>) ois.readObject();
-
-                    ois.close();
-                    fis.close();
-                } catch (EOFException e) {
-                    e.printStackTrace();
-                }
-
-                trobat = false;
-                for (Notes nota : notes) {
-                    if (nota.getAlumne().getDni().equalsIgnoreCase(alumneTrobat.getDni()) && !trobat) {
-                        trobat = true;
-                        System.out.println("Les dades del alumne son:" +  nota.getAlumne().toString() + " i te un " + nota.getNota() + " de nota");
-                    }
-                }
-
-            } else {
-                System.out.println("No s ha trobat cap alumne");
-            }
+            LaSalle.mirarNotes();
 
         } else if (rol == 2 && option == 2) {
 
