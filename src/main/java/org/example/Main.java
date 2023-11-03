@@ -4,13 +4,8 @@ import org.example.Alumnes.Alumne;
 import org.example.Empleats.Empleat;
 import org.example.Empleats.Professor;
 import org.example.Files.Notes;
-import org.example.Files.Turnos;
 import org.example.Menu.Menu;
 import java.io.*;
-import java.sql.Array;
-import java.sql.SQLOutput;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -29,7 +24,7 @@ public class Main {
         if (rol == 1 && option == 1) {
 
             ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
             int indexAlumneTrobat = 0;
             boolean trobat = false, acabat = false;
 
@@ -63,7 +58,7 @@ public class Main {
             if (trobat) {
                 Alumne alumneTrobat = alumnes.get(indexAlumneTrobat);
                 ArrayList<Notes> notes = new ArrayList<>();
-                File directoriNotes = new File("src/Files/notes.dat");
+                File directoriNotes = new File(menu.ruta() + "notes.dat");
 
                 try {
                     FileInputStream fis = new FileInputStream(directoriNotes);
@@ -94,7 +89,7 @@ public class Main {
         } else if (rol == 1 && option == 3) {
 
             ArrayList<Professor> professors = new ArrayList<>();
-            File directoriProfessors = new File("src/Files/professors.dat");
+            File directoriProfessors = new File(menu.ruta() + "professors.dat");
             int indexProfessorTrobat = 0;
             boolean trobat = false, acabat = false;
 
@@ -137,7 +132,7 @@ public class Main {
         } else if (rol == 2 && option == 1) { // ha loguejat un profe //Abdel
 
             ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
             int indexAlumneTrobat = 0;
             boolean trobat = false, acabat = false;
 
@@ -171,7 +166,7 @@ public class Main {
             if (trobat) {
                 Alumne alumneTrobat = alumnes.get(indexAlumneTrobat);
                 ArrayList<Notes> notes = new ArrayList<>();
-                File directoriNotes = new File("src/Files/notes.dat");
+                File directoriNotes = new File(menu.ruta() + "notes.dat");
 
                 try {
                     FileInputStream fis = new FileInputStream(directoriNotes);
@@ -202,7 +197,7 @@ public class Main {
         } else if (rol == 2 && option == 3) {
 
             ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
             int indexAlumneTrobat = 0;
             boolean trobat = false, acabat = false;
 
@@ -240,8 +235,6 @@ public class Main {
                 System.out.println("No s ha trobat cap alumne");
             }
 
-        } else if (rol == 2 && option == 4) {
-
         } else if (rol == 3 && option == 1) { // ha logejat una cuinera // Raul
 
         } else if (rol == 3 && option == 2) {
@@ -249,7 +242,7 @@ public class Main {
         } else if (rol == 4 && option == 1) { // ha logejat una secretaria //Abdel
 
             ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
             int indexAlumneTrobat = 0;
             boolean trobat = false, acabat = false;
 
@@ -294,7 +287,7 @@ public class Main {
         } else if (rol == 4 && option == 2) { // fer que no es sobreescribeixin els profes
 
             ArrayList<Professor> professors = new ArrayList<>();
-            File directoriProfessors = new File("src/Files/professors.dat");
+            File directoriProfessors = new File(menu.ruta() + "professors.dat");
             int indexProfessorTrobat = 0;
             boolean trobat = false, acabat = false;
 
@@ -335,7 +328,7 @@ public class Main {
         } else if (rol == 4 && option == 3) { // crear profes
 
             ArrayList<Professor> professors = new ArrayList<>();
-            File directoriProfessors = new File("src/Files/professors.dat");
+            File directoriProfessors = new File(menu.ruta() + "professors.dat");
 
             try {
                 if (directoriProfessors.exists()) {
@@ -382,7 +375,7 @@ public class Main {
             System.out.println("Dni del professor que vols actualitzar: ");
             String nif = menu.nif();
             ArrayList<Professor> professors = new ArrayList<>();
-            File directoriProfessors = new File("src/Files/professors.dat");
+            File directoriProfessors = new File(menu.ruta() + "professors.dat");
             boolean trobat = false, acabat = false;
 
             try {
@@ -429,7 +422,7 @@ public class Main {
                     professor.setCurs(menu.curs());
                     System.out.println("Les dades del professor han sigut actualitzades a: " + professor);
 
-                    FileOutputStream fos = new FileOutputStream("src/Files/professors.dat", true);
+                    FileOutputStream fos = new FileOutputStream(menu.ruta() + "professors.dat", true);
                     ObjectOutputStream oos = new ObjectOutputStream(fos);
                     oos.writeObject(professor);
 
@@ -444,7 +437,7 @@ public class Main {
         } else if (rol == 4 && option == 5) {
 
             ArrayList<Professor> professors = new ArrayList<>();
-            File directoriProfessors = new File("src/Files/professors.dat");
+            File directoriProfessors = new File(menu.ruta() + "professors.dat");
 
             try {
                 if (directoriProfessors.exists()) {
@@ -496,7 +489,7 @@ public class Main {
         } else if (rol == 4 && option == 6) { // crear alumnes
 
             ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
 
             try {
                 if (directoriAlumnes.exists()) {
@@ -537,7 +530,7 @@ public class Main {
             System.out.println("Dni del alumne que vols actualitzar: ");
             String nif = menu.nif();
             ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
             boolean trobat = false, acabat = false;
 
             try { // s'ompla la arraylist amb alumnes del fitxer d alumnes
@@ -563,7 +556,7 @@ public class Main {
                     alumne.setEdat(menu.age());
                     System.out.println("L'alumne ara te aquestes dades: " + alumne);
 
-                    FileOutputStream fos = new FileOutputStream("src/Files/alumnes.dat", true);
+                    FileOutputStream fos = new FileOutputStream(menu.ruta() + "alumnes.dat", true);
                     ObjectOutputStream oos = new ObjectOutputStream(fos);
                     oos.writeObject(alumnes);
 
@@ -578,7 +571,7 @@ public class Main {
         } else if (rol == 4 && option == 8) { // Raul
 
             ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
 
             try {
                 if (directoriAlumnes.exists()) {
@@ -633,7 +626,7 @@ public class Main {
             String dniAlumno = menu.nif();
 
             ArrayList<Notes> notas = new ArrayList<>();
-            File archivoNotas = new File("src/Files/notes.dat");
+            File archivoNotas = new File(menu.ruta() + "notes.dat");
 
             try {
                 if (archivoNotas.exists()) {
@@ -676,7 +669,7 @@ public class Main {
             }
         } else if (rol == 4 && option == 10) { // crear notes
 
-            File directoriNotes = new File("src/Files/notes.dat");
+            File directoriNotes = new File(menu.ruta() + "notes.dat");
 
             if (!directoriNotes.exists()) {
                 try {
@@ -687,7 +680,7 @@ public class Main {
             }
 
             ArrayList<Alumne> alumnes = new ArrayList<>();
-            File directoriAlumnes = new File("src/Files/alumnes.dat");
+            File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
             int indexAlumneTrobat = 0;
             boolean trobat = false, acabat = false;
 
@@ -725,7 +718,7 @@ public class Main {
                         Notes notesAlumne = new Notes(alumnes.get(indexAlumneTrobat), alumnes.get(indexAlumneTrobat).getCurs(), nota);
                         ArrayList<Notes> notesArrayList = new ArrayList<>();
                         notesArrayList.add(notesAlumne);
-                        FileOutputStream fos = new FileOutputStream("src/Files/notes.dat", true);
+                        FileOutputStream fos = new FileOutputStream(menu.ruta() + "notes.dat", true);
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
                         oos.writeObject(notesArrayList);
@@ -746,7 +739,7 @@ public class Main {
             String dniAlumno = menu.nif();
 
             ArrayList<Notes> notas = new ArrayList<>();
-            File archivoNotas = new File("src/Files/notes.dat");
+            File archivoNotas = new File(menu.ruta() + "notes.dat");
 
             try {
                 if (archivoNotas.exists()) {
@@ -796,7 +789,7 @@ public class Main {
             }
         } else if (rol == 4 && option == 12) {
             ArrayList<Notes> allNotes = new ArrayList<>();
-            File directoriNotes = new File("src/Files/notes.dat");
+            File directoriNotes = new File(menu.ruta() + "notes.dat");
 
             try {
                 FileInputStream fis = new FileInputStream(directoriNotes);

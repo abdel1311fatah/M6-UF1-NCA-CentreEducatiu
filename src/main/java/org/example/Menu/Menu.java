@@ -1,5 +1,6 @@
 package org.example.Menu;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -140,6 +141,32 @@ public class Menu {
         } while (!valid);
 
         return email;
+    }
+
+    public String ruta() {
+
+        boolean valid = false;
+        String ruta = "";
+        String opcio = obtindreString("Escriu: 'si' si vols elegir una ruta per a guardar les dades o escriu 'no' per a utilitzar la predeterminada: ");
+        while (!valid) {
+            if (opcio.equalsIgnoreCase("si")) {
+                while (!valid) {
+                    ruta = obtindreString("Introdueix la ruta a la que vols crear els arxius: ");
+                    File file = new File(ruta);
+                    if (file.exists()) {
+                        return ruta;
+                    } else {
+                        System.out.println("La ruta que has introduit no existeix: ");
+                    }
+                }
+            } else if (opcio.equalsIgnoreCase("no")) {
+                ruta = "src/Files/";
+                return ruta;
+            } else {
+                System.out.println("Has d' introduir si o no, torna a provar: ");
+            }
+        }
+        return ruta;
     }
 
     public String nif() {
@@ -294,7 +321,7 @@ public class Menu {
                 }
             }
 
-            if(!valid){
+            if (!valid) {
                 System.out.println("No has introduit un curs valid, introdueixne un valid: ");
                 curs = scan.nextLine();
             }
@@ -311,7 +338,7 @@ public class Menu {
         while (!valid) {
             if (age != 0 && age > 0 && age <= 130) {
                 valid = true;
-            }else{
+            } else {
                 System.out.println("No es una edat valida, introdueixne un altre: ");
                 age = scan.nextInt();
             }
