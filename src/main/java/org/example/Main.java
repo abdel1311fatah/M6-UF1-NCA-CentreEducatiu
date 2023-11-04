@@ -95,6 +95,25 @@ public class Main {
 
             LaSalle.mirarNotes();
 
+        } else if (rol == 4 && option == 13) { // crear horari
+
+            LaSalle.crearHorari();
+
+        } else if (rol == 4 && option == 14) { // borrar horari
+
+            LaSalle.borrarHorari();
+
+        } else if (rol == 4 && option == 15) { // mirar horari
+
+            LaSalle.crearHorari();
+
+        } else if (rol == 4 && option == 16) { // actualitzar horari
+
+            LaSalle.ActualitzarHorari();
+
         }
+
+
+
     }
 }

@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Alumnes.Alumne;
 import org.example.Empleats.Professor;
+import org.example.Files.Horari;
 import org.example.Files.Notes;
 import org.example.Menu.Menu;
 
@@ -663,7 +664,7 @@ public class CentreEducatiu {
             for (Notes nota : notas) {
                 if (nota.getAlumne().getDni().equalsIgnoreCase(dniAlumno)) {
                     // Demana la nova nota y actualitza la existent
-                    System.out.println("Introdueix la novaa nota per el curs " + nota.getCurs() + ": ");
+                    System.out.println("Introdueix la nova nota per el curs " + nota.getCurs() + ": ");
                     Scanner scanner = new Scanner(System.in);
                     System.out.println("Nova nota: ");
                     int nuevaNota = scanner.nextInt();
@@ -693,4 +694,154 @@ public class CentreEducatiu {
         return notas;
     }
 
+    public ArrayList<Horari> crearHorari(){
+        boolean valid = false;
+        ArrayList<Horari> horaris = new ArrayList<>();
+        File directoriHorari = new File(menu.ruta() + "horari.dat");
+        while (!valid){
+            try {
+                if (directoriHorari.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriHorari);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    // llegeix l'array list d'horaris
+                    horaris = (ArrayList<Horari>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                // No s'han trobat les dades del horari
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            // Crear un nou horari y agregarlo a "horaris"
+            Horari horari = new Horari(menu.obtindreInt("Introdueix la hora de la asignatura: ") ,menu.obtindreString("Introdueix la asignatura corresponent: "));
+            horaris.add(horari);
+
+            try {
+                FileOutputStream fos = new FileOutputStream(directoriHorari);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+                oos.writeObject(horaris);
+
+                oos.close();
+                fos.close();
+                System.out.println("Has creat un alumne amb aquestes dades: " + horari.toString());
+                valid = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return horaris;
+    }
+
+    public ArrayList<Horari> borrarHorari() {
+        boolean valid = false;
+        ArrayList<Horari> horaris = new ArrayList<>();
+        File directoriHorari = new File(menu.ruta() + "horari.dat");
+
+        while (!valid){
+            try {
+                if (directoriHorari.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriHorari);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    horaris = (ArrayList<Horari>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                System.out.println("No hi han dades a horari.dat");
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Nom de la asignatura que vols borrar: ");
+            String dni = menu.nif();
+            int index = 0;
+            boolean trobat = false;
+
+            for (int i = 0; i < horaris.size(); i++) {
+                if (dni.equalsIgnoreCase(horaris.get(i).getAssignatura()) && !trobat) {
+                    index = i;
+                    trobat = true;
+                }
+            }
+
+            if (trobat) {
+                horaris.remove(horaris.get(index));
+            } else {
+                System.out.println("No s'ha trobat al professor ");
+            }
+
+            try {
+                FileOutputStream fos = new FileOutputStream(directoriHorari);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+                oos.writeObject(horaris);
+
+                oos.close();
+                fos.close();
+                System.out.println("Has borrat la assignatura: " + dni);
+                valid = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return horaris;
+    }
+
+    public ArrayList<Horari> ActualitzarHorari() throws IOException, ClassNotFoundException {
+        boolean valid = false;
+        ArrayList<Horari> horaris = new ArrayList<>();
+        File directoriHorari = new File(menu.ruta() + "horari.dat");
+
+        while (!valid) {
+            System.out.print("Nom de la assignatura que vols actualitzar: ");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String assignatura = reader.readLine();
+
+            boolean trobat = false, acabat = false;
+
+            try {
+                FileInputStream fis = new FileInputStream(directoriHorari);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                horaris = (ArrayList<Horari>) ois.readObject();
+
+                ois.close();
+                fis.close();
+            } catch (EOFException e) {
+                e.printStackTrace();
+            }
+
+            for (Horari horari : horaris) {
+                if (horari.getAssignatura().equalsIgnoreCase(assignatura) && !trobat) {
+                    trobat = true;
+                    System.out.println("Pots actualitzar les dades de l'assignatura: " + horari.getAssignatura());
+
+                    System.out.print("Introdueix la nova hora: ");
+                    int novaHora = Integer.parseInt(reader.readLine());// Solicita la nueva hora al usuario
+                    horari.setHora(novaHora); // Actualiza la hora del horario
+
+                    System.out.println("L'assignatura ara té aquestes dades: " + horari);
+
+                    FileOutputStream fos = new FileOutputStream(menu.ruta() + "horari.dat", false); // Usar 'false' para reemplazar el archivo
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+                    oos.writeObject(horaris);
+
+                    oos.close();
+                    fos.close();
+                    valid = true;
+                }
+            }
+            if (!trobat) {
+                System.out.println("No s'ha trobat cap assignatura");
+            }
+        }
+        return horaris;
+    }
 }
