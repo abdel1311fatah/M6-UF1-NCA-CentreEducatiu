@@ -1,6 +1,4 @@
 package org.example;
-
-import jdk.incubator.foreign.CLinker;
 import org.example.Alumnes.Alumne;
 import org.example.Empleats.Professor;
 import org.example.Files.Notes;
