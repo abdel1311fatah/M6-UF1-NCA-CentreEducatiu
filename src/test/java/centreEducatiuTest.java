@@ -8,6 +8,7 @@ class centreEducatiuTest {
 
     }
 
+    // comparar els creats amb els dels arxius, llegir tot el arxiu per a comparar
     @Test
     public void createAlumneTest() {
 
