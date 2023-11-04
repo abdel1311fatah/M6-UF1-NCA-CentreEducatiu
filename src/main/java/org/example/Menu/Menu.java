@@ -96,8 +96,12 @@ public class Menu {
                     System.out.println("10: Insertar notes");
                     System.out.println("11: Actualitzar notes"); // Raul
                     System.out.println("12: Veure notes"); // Raul // 2-1
+                    System.out.println("13: Insertar horaris");
+                    System.out.println("14: Borrar horaris");
+                    System.out.println("15: Mirar horaris");
+                    System.out.println("16: Actualitzar horaris");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if (order != 0 || (order > 0 && order <= 12)) {
+                    if (order != 0 || (order > 0 && order <= 16)) {
                         return order;
                     }
 

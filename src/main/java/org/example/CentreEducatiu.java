@@ -1,4 +1,5 @@
 package org.example;
+
 import org.example.Alumnes.Alumne;
 import org.example.Empleats.Professor;
 import org.example.Files.Notes;
@@ -640,8 +641,6 @@ public class CentreEducatiu {
             // Demana el DNI que volem actualitzar
             System.out.println("DNI del alumne del que vols actualitzar les notes: ");
             String dniAlumno = menu.nif();
-
-
 
             try {
                 if (archivoNotas.exists()) {
