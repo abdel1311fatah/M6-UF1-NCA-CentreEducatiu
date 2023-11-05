@@ -6,6 +6,7 @@ import org.example.Empleats.Secretaria;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Turnos implements Serializable {
     private String dni;
@@ -40,5 +41,17 @@ public class Turnos implements Serializable {
                 "dni='" + dni + '\'' +
                 ", data=" + data +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Turnos turnos)) return false;
+        return Objects.equals(getDni(), turnos.getDni()) && Objects.equals(getData(), turnos.getData());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDni(), getData());
     }
 }

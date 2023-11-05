@@ -2,6 +2,8 @@ package org.example.Alumnes;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.Objects;
+
 public class Alumne implements Serializable {
     private String dni;
     private String nom;
@@ -68,5 +70,17 @@ public class Alumne implements Serializable {
                 ", curs='" + curs + '\'' +
                 ", edat=" + edat +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Alumne alumne)) return false;
+        return getEdat() == alumne.getEdat() && Objects.equals(getDni(), alumne.getDni()) && Objects.equals(getNom(), alumne.getNom()) && Objects.equals(getCognom(), alumne.getCognom()) && Objects.equals(getCurs(), alumne.getCurs());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDni(), getNom(), getCognom(), getCurs(), getEdat());
     }
 }

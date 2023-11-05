@@ -1,6 +1,7 @@
 package org.example.Empleats;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Empleat implements Serializable{
     private String dni;
@@ -69,5 +70,17 @@ public class Empleat implements Serializable{
                 ", email='" + email + '\'' +
                 ", edat=" + edat +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Empleat empleat)) return false;
+        return getEdat() == empleat.getEdat() && Objects.equals(getDni(), empleat.getDni()) && Objects.equals(getNom(), empleat.getNom()) && Objects.equals(getCognom(), empleat.getCognom()) && Objects.equals(getEmail(), empleat.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDni(), getNom(), getCognom(), getEmail(), getEdat());
     }
 }

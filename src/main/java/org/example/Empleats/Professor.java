@@ -4,6 +4,7 @@ import org.example.Empleats.Empleat;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Professor extends Empleat implements Serializable {
     private String[] assignatures;
@@ -40,5 +41,19 @@ public class Professor extends Empleat implements Serializable {
                 "assignatures=" + Arrays.toString(assignatures) +
                 ", curs='" + curs + '\'' +
                 "} " + super.toString();
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Professor professor)) return false;
+        if (!super.equals(o)) return false;
+        return Arrays.equals(getAssignatures(), professor.getAssignatures()) && Objects.equals(getCurs(), professor.getCurs());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(super.hashCode(), getCurs());
+        result = 31 * result + Arrays.hashCode(getAssignatures());
+        return result;
     }
 }

@@ -155,9 +155,11 @@ public class Menu {
         while (!valid) {
             if (opcio.equalsIgnoreCase("si")) {
                 while (!valid) {
-                    ruta = obtindreString("Introdueix la ruta a la que vols crear els arxius: ");
+                    ruta = "/";
+                    ruta += obtindreString("Introdueix la ruta a la que vols crear els arxius: ");
                     File file = new File(ruta);
                     if (file.exists()) {
+                        ruta.replace("\\","/");
                         return ruta;
                     } else {
                         System.out.println("La ruta que has introduit no existeix: ");

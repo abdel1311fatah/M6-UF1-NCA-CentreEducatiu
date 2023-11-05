@@ -181,6 +181,47 @@ public class CentreEducatiu {
         return Optional.ofNullable(alumneTrobat);
     }
 
+    public Optional<Horari> mirarHorari() throws IOException, ClassNotFoundException {
+        ArrayList<Horari> horaris = new ArrayList<>();
+        File directoriProfessors = new File(menu.ruta() + "horari.dat");
+        int indexHorariTrobat = 0;
+        boolean trobat = false;
+
+        try {
+            FileInputStream fis = new FileInputStream(directoriProfessors);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            horaris = (ArrayList<Horari>) ois.readObject();
+
+            ois.close();
+            fis.close();
+        } catch (EOFException e) {
+            e.printStackTrace();
+        }
+
+        String assignatura = menu.obtindreString("Assignatura de la que vols mirar el horari: ");
+
+        if (horaris.size() >= 0) {
+            for (int i = 0; i < horaris.size(); i++) {
+                if (assignatura.equalsIgnoreCase(horaris.get(i).getAssignatura()) && !trobat) {
+                    trobat = true;
+                    indexHorariTrobat = i;
+                }
+            }
+        } else {
+            System.out.println("No hi han horaris ficats");
+        }
+
+        if (trobat) {
+            Horari horari = horaris.get(indexHorariTrobat);
+            System.out.println("L' assignatura " + horari.getAssignatura() + " toca a la hora " + horari.getHora());
+            return Optional.of(horari);
+        } else {
+            System.out.println("No s'ha trobat cap horari");
+        }
+        return null;
+    }
+
     public ArrayList<Professor> crearProfessor() {
         boolean valid = false;
         ArrayList<Professor> professors = new ArrayList<>();

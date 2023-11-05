@@ -29,6 +29,8 @@ public class Main {
 
         } else if (rol == 1 && option == 2) {
 
+            LaSalle.mirarHorari();
+
         } else if (rol == 1 && option == 3) {
 
             LaSalle.mirarProfessor();
@@ -38,6 +40,8 @@ public class Main {
             LaSalle.mirarNotes();
 
         } else if (rol == 2 && option == 2) { // mirar horari
+
+            LaSalle.mirarHorari();
 
         } else if (rol == 2 && option == 3) { // mirar alumne
 
@@ -85,7 +89,7 @@ public class Main {
 
         } else if (rol == 4 && option == 10) { // crear notes
 
-           LaSalle.crearNota();
+            LaSalle.crearNota();
 
         } else if (rol == 4 && option == 11) { // update notes
 
@@ -105,15 +109,12 @@ public class Main {
 
         } else if (rol == 4 && option == 15) { // mirar horari
 
-            LaSalle.crearHorari();
+            LaSalle.mirarHorari();
 
         } else if (rol == 4 && option == 16) { // actualitzar horari
 
             LaSalle.ActualitzarHorari();
 
         }
-
-
-
     }
 }

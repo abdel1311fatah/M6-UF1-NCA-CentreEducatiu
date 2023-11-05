@@ -3,6 +3,7 @@ package org.example.Files;
 import org.example.Alumnes.Alumne;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Notes implements Serializable {
 
@@ -50,5 +51,17 @@ public class Notes implements Serializable {
                 ", curs='" + curs + '\'' +
                 ", nota=" + nota +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Notes notes)) return false;
+        return getNota() == notes.getNota() && Objects.equals(getAlumne(), notes.getAlumne()) && Objects.equals(getCurs(), notes.getCurs());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAlumne(), getCurs(), getNota());
     }
 }
