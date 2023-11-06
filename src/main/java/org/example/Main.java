@@ -6,6 +6,7 @@ import org.example.Empleats.Professor;
 import org.example.Files.Notes;
 import org.example.Menu.Menu;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,17 +24,21 @@ public class Main {
         //menu d' opcions del usuari per rol
         int option = menu.optionsMenu(rol);
 
-        if (rol == 1 && option == 1) {
+        if (rol == 1 && option == 1) { // mirar notes
 
             LaSalle.mirarNotes();
 
-        } else if (rol == 1 && option == 2) {
+        } else if (rol == 1 && option == 2) { // mirar horari
 
             LaSalle.mirarHorari();
 
-        } else if (rol == 1 && option == 3) {
+        } else if (rol == 1 && option == 3) { // mirar professor
 
             LaSalle.mirarProfessor();
+
+        } else if (rol == 1 && option == 4) { // mirar notes
+
+            LaSalle.mirarDeures();
 
         } else if (rol == 2 && option == 1) { // ha loguejat un profe //Abdel
 
@@ -46,6 +51,18 @@ public class Main {
         } else if (rol == 2 && option == 3) { // mirar alumne
 
             LaSalle.mirarAlumne();
+
+        } else if (rol == 2 && option == 4) { // crear deures
+
+            LaSalle.crearDeures();
+
+        } else if (rol == 2 && option == 5) { // mirar deures
+
+            LaSalle.mirarDeures();
+
+        } else if (rol == 2 && option == 6) { // borrar deures
+
+            LaSalle.deleteDeures();
 
         } else if (rol == 3 && option == 1) { // ha logejat una cuinera // Raul
 
@@ -95,7 +112,7 @@ public class Main {
 
             LaSalle.updateNotes();
 
-        } else if (rol == 4 && option == 12) {
+        } else if (rol == 4 && option == 12) { // mirar notes
 
             LaSalle.mirarNotes();
 

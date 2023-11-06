@@ -58,6 +58,7 @@ public class Menu {
                     System.out.println("1: Mirar les teves notes "); // fer lo mateix que als horaris // Raul // 2-1
                     System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos // Raul
                     System.out.println("3: Mirar professors "); // filtrar profes per string del curs i recorrer amb un foreach el arraylist // Raul 4-2
+                    System.out.println("4: Mirar deures ");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
                     if (order != 0 || (order > 0 && order <= 4)) {
                         return order;
@@ -68,8 +69,12 @@ public class Menu {
                     System.out.println("1: Mirar notes"); // fer lo mateix que als horaris
                     System.out.println("2: Mirar horari "); // fer fitxers tipo horari1 horari2 horariIT i filtrar per cursos
                     System.out.println("3: Mirar alumnes "); // filtrar alumnes per string del curs i recorrer amb un foreach el arraylist
+                    System.out.println("4: Crear deures ");
+                    System.out.println("5: Mirar deures ");
+                    System.out.println("6: Borrar deures ");
+                    System.out.println("7: Actualitzar deures ");
                     order = scan.nextInt(); // lo que vol fer l usuari una vegada ha entrat com a el rol que li toqui
-                    if (order != 0 || (order > 0 && order <= 3)) {
+                    if (order != 0 || (order > 0 && order <= 7)) {
                         return order;
                     }
                 } else if (option == 3) { // ha loguejat una cuinera

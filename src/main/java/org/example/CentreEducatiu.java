@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Alumnes.Alumne;
 import org.example.Empleats.Professor;
+import org.example.Files.Deures;
 import org.example.Files.Horari;
 import org.example.Files.Notes;
 import org.example.Menu.Menu;
@@ -123,15 +124,15 @@ public class CentreEducatiu {
         } else {
             System.out.println("No hi han professors inscrits");
         }
-
+        Professor professorTrobat = null;
         if (trobat) {
-            Professor professorTrobat = professors.get(indexProfessorTrobat);
+            professorTrobat = professors.get(indexProfessorTrobat);
             System.out.println("El professor de DNI " + nif + " te aquestes dades: " + professorTrobat.toString());
             return Optional.of(professorTrobat);
         } else {
             System.out.println("No s'ha trobat cap professor");
         }
-        return null;
+        return Optional.ofNullable(professorTrobat);
     }
 
     public Optional<Alumne> mirarAlumne() throws IOException, ClassNotFoundException {
@@ -394,11 +395,11 @@ public class CentreEducatiu {
         return professors;
     }
 
-    public ArrayList<Alumne> crearAlumne(){
+    public ArrayList<Alumne> crearAlumne() {
         boolean valid = false;
         ArrayList<Alumne> alumnes = new ArrayList<>();
         File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
-        while (!valid){
+        while (!valid) {
             try {
                 if (directoriAlumnes.exists()) {
                     FileInputStream fis = new FileInputStream(directoriAlumnes);
@@ -442,7 +443,7 @@ public class CentreEducatiu {
         ArrayList<Alumne> alumnes = new ArrayList<>();
         File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
 
-        while (!valid){
+        while (!valid) {
             System.out.println("Dni del alumne que vols actualitzar: ");
             String nif = menu.nif();
 
@@ -487,12 +488,12 @@ public class CentreEducatiu {
         return alumnes;
     }
 
-    public ArrayList<Alumne> deleteAlumne(){
+    public ArrayList<Alumne> deleteAlumne() {
         boolean valid = false;
         ArrayList<Alumne> alumnes = new ArrayList<>();
         File directoriAlumnes = new File(menu.ruta() + "alumnes.dat");
 
-        while (!valid){
+        while (!valid) {
             try {
                 if (directoriAlumnes.exists()) {
                     FileInputStream fis = new FileInputStream(directoriAlumnes);
@@ -544,17 +545,16 @@ public class CentreEducatiu {
         return alumnes;
     }
 
-    public ArrayList<Notes> deleteNota(){
+    public ArrayList<Notes> deleteNota() {
 
         boolean valid = false;
         ArrayList<Notes> notas = new ArrayList<>();
         File archivoNotas = new File(menu.ruta() + "notes.dat");
 
-        while (!valid){
+        while (!valid) {
             // Demana el DNI de les notes que vols borrar
             System.out.println("DNI del alumne al que vols borrar les notes: ");
             String dniAlumno = menu.nif();
-
 
 
             try {
@@ -606,7 +606,7 @@ public class CentreEducatiu {
         File directoriNotes = new File(menu.ruta() + "notes.dat");
         ArrayList<Notes> notesArrayList = new ArrayList<>();
 
-        while (!valid){
+        while (!valid) {
 
             if (!directoriNotes.exists()) {
                 try {
@@ -674,12 +674,12 @@ public class CentreEducatiu {
         return notesArrayList;
     }
 
-    public ArrayList<Notes> updateNotes(){
+    public ArrayList<Notes> updateNotes() {
         boolean valid = false;
         ArrayList<Notes> notas = new ArrayList<>();
         File archivoNotas = new File(menu.ruta() + "notes.dat");
 
-        while (!valid){
+        while (!valid) {
             // Demana el DNI que volem actualitzar
             System.out.println("DNI del alumne del que vols actualitzar les notes: ");
             String dniAlumno = menu.nif();
@@ -735,11 +735,11 @@ public class CentreEducatiu {
         return notas;
     }
 
-    public ArrayList<Horari> crearHorari(){
+    public ArrayList<Horari> crearHorari() {
         boolean valid = false;
         ArrayList<Horari> horaris = new ArrayList<>();
         File directoriHorari = new File(menu.ruta() + "horari.dat");
-        while (!valid){
+        while (!valid) {
             try {
                 if (directoriHorari.exists()) {
                     FileInputStream fis = new FileInputStream(directoriHorari);
@@ -758,7 +758,7 @@ public class CentreEducatiu {
             }
 
             // Crear un nou horari y agregarlo a "horaris"
-            Horari horari = new Horari(menu.obtindreInt("Introdueix la hora de la asignatura: ") ,menu.obtindreString("Introdueix la asignatura corresponent: "));
+            Horari horari = new Horari(menu.obtindreInt("Introdueix la hora de la asignatura: "), menu.obtindreString("Introdueix la asignatura corresponent: "));
             horaris.add(horari);
 
             try {
@@ -783,7 +783,7 @@ public class CentreEducatiu {
         ArrayList<Horari> horaris = new ArrayList<>();
         File directoriHorari = new File(menu.ruta() + "horari.dat");
 
-        while (!valid){
+        while (!valid) {
             try {
                 if (directoriHorari.exists()) {
                     FileInputStream fis = new FileInputStream(directoriHorari);
@@ -885,4 +885,223 @@ public class CentreEducatiu {
         }
         return horaris;
     }
+
+    public ArrayList<Deures> crearDeures() {
+        boolean valid = false;
+        ArrayList<Deures> deures = new ArrayList<>();
+        File directoriDeures = new File(menu.ruta() + "deures.dat");
+        while (!valid) {
+            try {
+                if (directoriDeures.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriDeures);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    // llegeix l'array list d'alumnes
+                    deures = (ArrayList<Deures>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                // No s'han trobat les dades del alumne
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            //Trobar al professor per a la tasca
+            ArrayList<Professor> professors = new ArrayList<>();
+            System.out.println("Ara introdueix la ruta on tens guardats els profesors ");
+            File directoriProfessors = new File(menu.ruta() + "professors.dat ");
+            int indexProfessorTrobat = 0;
+            boolean trobat = false;
+
+            try {
+                FileInputStream fis = new FileInputStream(directoriProfessors);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                professors = (ArrayList<Professor>) ois.readObject();
+
+                ois.close();
+                fis.close();
+            } catch (EOFException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            String assignatura = menu.obtindreString("Assignatura del professor del que vols mirar la tasca ");
+
+            if (professors.size() >= 0) {
+                for (int i = 0; i < professors.size(); i++) {
+                    String[] assignatures = professors.get(i).getAssignatures();
+                    for (int j = 0; j < assignatures.length; j++) {
+                        if (assignatures[j].equalsIgnoreCase(assignatura) && !trobat) {
+                            trobat = true;
+                            indexProfessorTrobat = i;
+                        }
+                    }
+                }
+            } else {
+                System.out.println("No hi han professors inscrits ");
+            }
+
+            if (trobat) {
+                Deures tasca = new Deures(assignatura, professors.get(indexProfessorTrobat));
+                deures.add(tasca);
+            } else {
+                System.out.println("No s han pogut crear els deures ");
+            }
+
+            try {
+                FileOutputStream fos = new FileOutputStream(directoriDeures);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+                oos.writeObject(deures);
+
+                oos.close();
+                fos.close();
+                System.out.println("Has creats aquesta tasca: " + deures.get(indexProfessorTrobat).toString());
+                valid = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return deures;
+    }
+
+    public ArrayList<Deures> mirarDeures() {
+
+        ArrayList<Deures> deures = new ArrayList<>();
+        File directoriDeures = new File(menu.ruta() + "deures.dat");
+        try {
+            if (directoriDeures.exists()) {
+                FileInputStream fis = new FileInputStream(directoriDeures);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                // llegeix l'array list d'alumnes
+                deures = (ArrayList<Deures>) ois.readObject();
+
+                ois.close();
+                fis.close();
+            }
+        } catch (EOFException e) {
+            // No s'han trobat les dades del alumne
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //Trobar al professor per a la tasca
+        ArrayList<Professor> professors = new ArrayList<>();
+        System.out.println("Ara introdueix la ruta d' on vols treure els professors");
+        File directoriProfessors = new File(menu.ruta() + "professors.dat");
+        boolean trobat = false;
+
+        try {
+            FileInputStream fis = new FileInputStream(directoriProfessors);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            professors = (ArrayList<Professor>) ois.readObject();
+
+            ois.close();
+            fis.close();
+        } catch (EOFException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        ArrayList<Deures> tasquesProfessor = new ArrayList<>();
+
+        String assignatura = menu.obtindreString("Assignatura del professor del que vols mirar la tasca ");
+
+        if (professors.size() >= 0) {
+            for (int i = 0; i < professors.size(); i++) {
+                String[] assignatures = professors.get(i).getAssignatures();
+                for (int j = 0; j < assignatures.length; j++) {
+                    if(assignatures[j].equalsIgnoreCase(assignatura) && !trobat){
+                        Deures tasca = new Deures();
+                        tasca.setAssignatura(assignatures[j]);
+                        tasca.setProfessor(professors.get(i));
+                        tasquesProfessor.add(tasca);
+                        trobat = true;
+                    }
+                }
+            }
+        } else {
+            System.out.println("No s ha trobat cap tasca d' aquesta assignatura ");
+        }
+
+        if(trobat) {
+            for (Deures tasca : tasquesProfessor) {
+                System.out.println("Tens aquesta tasca: " + tasca.toString());
+            }
+        }
+
+        return tasquesProfessor;
+
+    }
+
+    public ArrayList<Deures> deleteDeures(){
+        boolean valid = false;
+        ArrayList<Deures> deures = new ArrayList<>();
+        File directoriDeures = new File(menu.ruta() + "deures.dat");
+        while (!valid) {
+            try {
+                if (directoriDeures.exists()) {
+                    FileInputStream fis = new FileInputStream(directoriDeures);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    deures = (ArrayList<Deures>) ois.readObject();
+
+                    ois.close();
+                    fis.close();
+                }
+            } catch (EOFException e) {
+                System.out.println("No queden dades a deures.dat");
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            String assignatura = menu.obtindreString("Introdueix el nom de l' assignatura de la que vols eliminar els deures: ");
+            int index = 0;
+            boolean trobat = false;
+
+            for (int i = 0; i < deures.size(); i++) {
+                if (assignatura.equalsIgnoreCase(deures.get(i).getAssignatura()) && !trobat) {
+                    index = i;
+                    trobat = true;
+                }
+            }
+
+            if (trobat) {
+                deures.remove(deures.get(index));
+            } else {
+                System.out.println("No s'ha trobat al professor ");
+            }
+
+            try {
+                FileOutputStream fos = new FileOutputStream(directoriDeures);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+                oos.writeObject(deures);
+
+                oos.close();
+                fos.close();
+                System.out.println("Has borrat les tasques de l' assignatura: " + assignatura);
+                valid = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return deures;
+    }
+
 }
