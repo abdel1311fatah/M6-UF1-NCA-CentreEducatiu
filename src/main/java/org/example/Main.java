@@ -72,7 +72,7 @@ public class Main {
 
             LaSalle.mirarAlumne();
 
-        } else if (rol == 4 && option == 2) { // fer que no es sobreescribeixin els profes
+        } else if (rol == 4 && option == 2) { // mirar profe
 
             LaSalle.mirarProfessor();
 
